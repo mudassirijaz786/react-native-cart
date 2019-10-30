@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import fetchTagUsingAPI from '../redux/store/fetchTags';
 import {getTags} from '../redux/store/reducer';
-
+import {actionTagDelete} from '../redux/store/actions'
 import {Text, View, FlatList, TouchableOpacity,StyleSheet} from 'react-native'
 
 class Tags extends Component {
@@ -17,16 +17,21 @@ class Tags extends Component {
         tagComponentDidMount()
         //console.log("HIIII", this.props.tagComponentDidMount())
     }
+    deleteTagEvent(index){
+        //e.preventDefault();
+        this.props.deleteTag(index);
+      }
     render() {
         const tags = this.props.gettingTags;
         
-        console.log("Getting Tags", tags)
+        //console.log("Getting Tags", tags)
         return (
             <View style={styles.container}>
                 <FlatList
                     data={tags}
                     renderItem={({key,item})=>
-                        <TouchableOpacity  
+                        <TouchableOpacity
+                            onPress={()=>this.deleteTagEvent(item)}  
                         >
                             <Text style={styles.tagStyle} >{item}</Text>
                         </TouchableOpacity> 
@@ -60,7 +65,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    tagComponentDidMount: fetchTagUsingAPI
+    tagComponentDidMount: fetchTagUsingAPI,
+    deleteTag: id => actionTagDelete(id)
 }, dispatch)
 
 export default connect(
