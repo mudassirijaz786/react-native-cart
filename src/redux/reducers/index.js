@@ -1,14 +1,12 @@
-import {TYPE_TAG_FETCH, TYPE_TAG_DELETE} from './actions';
+import {TYPE_TAG_FETCH, TYPE_TAG_DELETE, SEARCH_RESULTS} from '../actions/index';
 
 const initialState = {
     tags: [],
     searchArray: null,
-    searchText: ""
+    searchText: ''
 }
 
 export function reducerTag(state = initialState, action){
-    //console.log("payload", action.payload)
-
     switch(action.type) {
         case TYPE_TAG_FETCH:
             return {
@@ -19,15 +17,19 @@ export function reducerTag(state = initialState, action){
             return {
                 ...state,
                 tags: state.tags.filter(i=>{
-                    console.log("hi", action.payload)
                     return i !== action.payload
                 }),
                 searchArray: null
             }
+        case SEARCH_RESULTS:
+            return action.payload
+            
+            
         default:
             return state;
     }
 }
+
 // //selectors
 // export const getTags = (state)=>{
 //     console.log("state",state)

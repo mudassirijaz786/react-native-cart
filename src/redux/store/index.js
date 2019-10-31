@@ -30,10 +30,11 @@ import { applyMiddleware, createStore, combineReducers /*heplfull for more reduc
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger'
 // importing all reducers as many as we can have , in our case its one
-import {reducerTag} from './reducer';
+import {reducerTag} from '../reducers/index';
 
 const rootReducer = combineReducers({
-    tags: reducerTag
+    tags: reducerTag,
+    
 });
 
 //const middlewares = [thunk];

@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import fetchTagUsingAPI from '../redux/store/fetchTags';
-import {getTags} from '../redux/store/reducer';
-import {actionTagDelete} from '../redux/store/actions'
-import {Text, View, FlatList, TouchableOpacity,StyleSheet} from 'react-native'
+import fetchTagUsingAPI from '../redux/actions/fetchTags';
+import setSearchText from '../redux/actions/search'
+import {actionTagDelete} from '../redux/actions/index'
+import {Text, View, FlatList, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
 
 class Tags extends Component {
     constructor(props){
@@ -20,13 +19,22 @@ class Tags extends Component {
     deleteTagEvent(index){
         //e.preventDefault();
         this.props.deleteTag(index);
-      }
+    }
+    searchingTagEvent(event){
+        console.log("START" , event)
+        this.props.searching(event)
+        console.log("END")
+    }
     render() {
-        const tags = this.props.gettingTags;
-        
+        const tags = this.props.gettingTags || this.props.searchResults;    
         //console.log("Getting Tags", tags)
         return (
             <View style={styles.container}>
+                <TextInput
+                   placeholder="Search"
+                   onChangeText={this.searchingTagEvent}
+                   onClear={text =>clear(text)}
+                ></TextInput>
                 <FlatList
                     data={tags}
                     renderItem={({key,item})=>
@@ -57,16 +65,18 @@ const styles = StyleSheet.create({
       fontSize: 25,
       height: 50,
     }
-  })
+})
 const mapStateToProps = state => ({
     // tags: getTags(state)
     //state.rootReducer.stateInRedux
-    gettingTags: state.tags.tags
+    gettingTags: state.tags.tags,
+    searchResults: state.tags.searchArray
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     tagComponentDidMount: fetchTagUsingAPI,
-    deleteTag: id => actionTagDelete(id)
+    deleteTag: id => actionTagDelete(id),
+    searching: event=> setSearchText(event)
 }, dispatch)
 
 export default connect(

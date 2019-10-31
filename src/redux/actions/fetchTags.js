@@ -1,4 +1,4 @@
-import {actionTag} from './actions';
+import {actionTag} from './index';
 import XMLParser from 'react-xml-parser'
 function fetchTagUsingAPI(){
     return dispatch => {
