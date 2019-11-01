@@ -34,7 +34,7 @@ class Tags extends Component {
     //     console.log("END")
     // }
     render() {
-        const tags = this.props.gettingTags;
+        const tags = this.props.gettingTags || this.props.searchedArray;
         // console.log("SEARCHED ARRAY", this.props.searchedArray)
         const searched = this.props.searchedArray
         //console.log(tags)
