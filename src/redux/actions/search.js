@@ -1,6 +1,5 @@
 import {searchResults} from './index';
 export const setSearchText = (event) =>{
-    console.log("jh", state.tags.searchArray)
     return dispatch => {
         let searchText = event.nativeEvent.event;
         let data       = state.tags.searchArray;
@@ -9,9 +8,9 @@ export const setSearchText = (event) =>{
         const filteredArray = data.filter(l => {
             return l.toLowerCase().match( searchText );
         })
-        const c = searchResults(filteredArray)
+
         dispatch({
-            searchArray: c ,
+            searchArray:  searchResults(filteredArray) ,
             searchText: event
             
         })

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import fetchTagUsingAPI from '../redux/actions/fetchTags';
 import setSearchText from '../redux/actions/search'
-import {actionTagDelete} from '../redux/actions/index'
+import {actionTagDelete, searchResults} from '../redux/actions/index'
 import {Text, View, FlatList, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
 
 class Tags extends Component {
@@ -20,28 +21,41 @@ class Tags extends Component {
         //e.preventDefault();
         this.props.deleteTag(index);
     }
-    searchingTagEvent(event){
-        console.log("START" , event)
-        this.props.searching(event)
-        console.log("END")
+    search(event){
+        // console.log("event",event)
+        // const text = event.nativeEvent.event
+        // console.log("text hhh",text)
+        console.log(event)
+        this.props.searchResultsDispatch(event)
     }
+    // searchingTagEvent(event){
+    //     console.log("START" , event)
+    //     this.props.searching(event)
+    //     console.log("END")
+    // }
     render() {
-        const tags = this.props.gettingTags || this.props.searchResults;    
+        const tags = this.props.gettingTags;
+        // console.log("SEARCHED ARRAY", this.props.searchedArray)
+        const searched = this.props.searchedArray
+        //console.log(tags)
+        //const {actionTagDelete, value} = this.props;
+        // const query = this.props.arr
         //console.log("Getting Tags", tags)
         return (
             <View style={styles.container}>
                 <TextInput
-                   placeholder="Search"
-                   onChangeText={this.searchingTagEvent}
-                   onClear={text =>clear(text)}
+                    placeholder = "Procurar Trabalho"
+                    //onChange={(e) => actionTagDelete(e.target.value)}
+                    //value={value} 
+                    onChangeText={ (e)=>this.search(e)}
                 ></TextInput>
                 <FlatList
-                    data={tags}
+                    data={tags, searched}
                     renderItem={({key,item})=>
                         <TouchableOpacity
                             onPress={()=>this.deleteTagEvent(item)}  
                         >
-                            <Text style={styles.tagStyle} >{item}</Text>
+                            <Text style={styles.tagStyle} >{item || searched}</Text>
                         </TouchableOpacity> 
                     }
                     keyExtractor={(x,i)=>i}
@@ -70,13 +84,20 @@ const mapStateToProps = state => ({
     // tags: getTags(state)
     //state.rootReducer.stateInRedux
     gettingTags: state.tags.tags,
-    searchResults: state.tags.searchArray
+    searchedArray: state.tags.searchArray,
+    //arr: state.tags.searchArray,
+    // dataSource: state.tags.tags,
+    // searchedData: state.tags.searchArray
+    // key: state.tags.payload
+    //data : state.tags
+
+
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     tagComponentDidMount: fetchTagUsingAPI,
     deleteTag: id => actionTagDelete(id),
-    searching: event=> setSearchText(event)
+    searchResultsDispatch: payload => searchResults(payload),
 }, dispatch)
 
 export default connect(
