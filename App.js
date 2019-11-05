@@ -18,13 +18,17 @@ import {
 
 import Tags from './src/components/Tags'
 
-
+import Route from './src/components/Route';
+import SignupAuth from "./src/components/auth/Signup"
 
 const App: () => React$Node = () => {
   return (
       <View >
           <View style={{flexDirection: 'column', height: 500, padding: 10}}>
-            <Tags/>
+            <Text>Main application</Text>
+            {/* <Tags/> */}
+            {/* <Route/>         */}
+            <SignupAuth/>
         </View>
       </View>
   );
