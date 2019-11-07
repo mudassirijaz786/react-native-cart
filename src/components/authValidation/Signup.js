@@ -16,8 +16,7 @@ export default class Signup extends ValidationComponent {
     this.validate({
       name: {minlength:3, maxlength:7, required: true},
       email: {email: true},
-      number: {numbers: true},
-      date: {date: 'YYYY-MM-DD'}
+     
     });
   }
 
@@ -26,8 +25,6 @@ export default class Signup extends ValidationComponent {
         <View>
           <TextInput ref="name" onChangeText={(name) => this.setState({name})} value={this.state.name} />
           <TextInput ref="email" onChangeText={(email) => this.setState({email})} value={this.state.email} />
-          <TextInput ref="number" onChangeText={(number) => this.setState({number})} value={this.state.number} />
-          <TextInput ref="date" onChangeText={(date) => this.setState({date})} value={this.state.date} />
           {this.isFieldInError('date') && this.getErrorsInField('date').map(errorMessage => <Text>{errorMessage}</Text>) }
 
           <TouchableHighlight onPress={this._onPressButton}>

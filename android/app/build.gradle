@@ -81,7 +81,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-
+// implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -179,10 +179,11 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    
+    // compile "com.google.android.gms:play-services-base:16.0.1"
+    // compile "com.google.android.gms:play-services-maps:16.0.0"
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

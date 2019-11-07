@@ -18,12 +18,16 @@ const Email = t.refinement(t.String, email => {
     const reg = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/; //or any other regexp
     return reg.test(email);
 });
+
+const Username = t.refinement(t.String, username => {
+    const reg = /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/
+    return reg.test(username)
+})
 const User = t.struct({
     // email: t.String,
     email: Email,
     //username: t.maybe(t.String),
-    username: t.String,
-  
+    username: Username,
     password: t.String,
 });
 const options = {
@@ -35,7 +39,7 @@ const options = {
         },
         email: {
             placeholder: "email",
-            error: 'email cannot be empty',
+            error: 'Please enter a valid email',
         },
         password: {
             placeholder: "password",

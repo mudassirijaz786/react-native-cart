@@ -6,6 +6,8 @@ buildscript {
         minSdkVersion = 16
         compileSdkVersion = 28
         targetSdkVersion = 28
+        googlePlayServicesVersion = "11.8.0"
+        androidMapsUtilsVersion = "0.5+"
     }
     repositories {
         google()
@@ -13,6 +15,9 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:3.4.2")
+        // implementation project(':react-native-maps')
+        // implementation 'com.google.android.gms:play-services-base:10.0.1'
+        // implementation 'com.google.android.gms:play-services-maps:10.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

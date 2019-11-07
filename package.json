@@ -10,11 +10,15 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
+    "formik": "^2.0.3",
+    "haversine": "^1.1.1",
     "lodash": "^4.17.15",
     "react": "16.9.0",
     "react-native": "0.61.3",
     "react-native-form-validator": "^0.3.2",
     "react-native-gesture-handler": "^1.5.0",
+    "react-native-maps": "git+https://git@github.com/react-native-community/react-native-maps.git",
     "react-native-paper": "3.1.1",
     "react-native-router-flux": "4.0.6",
     "react-navigation": "^4.0.10",
@@ -25,7 +29,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "tcomb-form-native": "^0.6.20"
+    "tcomb-form-native": "^0.6.20",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@babel/core": "7.6.4",

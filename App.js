@@ -18,17 +18,32 @@ import {
 
 import Tags from './src/components/Tags'
 
-import Route from './src/components/Route';
+// import Route from './src/components/Route';
 import SignupAuth from "./src/components/auth/Signup"
+// import Signup from "./src/components/SignupLoginAuth/Signup"
+import Login from "./src/components/SignupLoginAuth/Login"
+import Route from "./src/components/SignupLoginAuth/Route"
+// import Signup from "./src/components/authValidation/Signup"
+import Maps from "./src/components/SignupLoginAuth/Maps"
+import Map from "./src/components/SignupLoginAuth/Map"
+import MapTest from "./src/components/SignupLoginAuth/MapTest"
+import SimpleMap from "./src/components/SignupLoginAuth/SimpleMap"
 
 const App: () => React$Node = () => {
   return (
       <View >
-          <View style={{flexDirection: 'column', height: 500, padding: 10}}>
-            <Text>Main application</Text>
+          <View style={{flexDirection: 'column', height: 1000, padding: 10}}>
+            {/* <Text>Main application</Text> */}
             {/* <Tags/> */}
             {/* <Route/>         */}
-            <SignupAuth/>
+            {/* <Signup/> */}
+            {/* <Login/> */}
+            {/* <Route/> */}
+            {/* <Signup/> */}
+            {/* <Maps/> */}
+            {/* <Map/> */}
+            {/* <MapTest/> */}
+            <SimpleMap/>
         </View>
       </View>
   );
