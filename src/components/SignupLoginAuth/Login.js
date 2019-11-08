@@ -127,9 +127,9 @@ export default class Login extends React.Component {
     // }
     onLogin() {
         const { name, password } = this.state;
-        if (name === "mudassir" && password ==="mudassir"){
-            Alert.alert('Credentials', `name = ${name} and password = ${password}`);
-            Keyboard.dismiss()
+        if (name === "testuser" && password ==="testuser"){
+            // Alert.alert('Credentials', `name = ${name} and password = ${password}`);
+            // Keyboard.dismiss()
             this.simplemapping()
             // this.test()
             // <Test/>
@@ -162,7 +162,7 @@ export default class Login extends React.Component {
         return(
             <SafeAreaView style={{ marginTop: 90 }}>
                 <Text style={{fontSize: 30, textAlign: "center"}}>Login</Text>
-                <Text style={{ textAlign: "center"}}>Please enter mudassir in both fields for now</Text>
+                <Text style={{ textAlign: "center"}}>Please enter "testuser" in both fields for now</Text>
                 <Formik
                 initialValues={this.state}
                 // initialValues={{
@@ -178,7 +178,7 @@ export default class Login extends React.Component {
                     actions.setSubmitting(false);
                     }, 1000);
                 }}
-                validationSchema={validationSchema}
+                // validationSchema={validationSchema}
                 >
                 {formikProps => (
                     <React.Fragment>

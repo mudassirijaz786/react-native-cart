@@ -31,7 +31,9 @@ import SimpleMap from "./src/components/SignupLoginAuth/SimpleMap"
 import DistanceMaps from "./src/components/SignupLoginAuth/DistanceMaps"
 import TestExample from "./src/components/SignupLoginAuth/TestExample"
 import SimpleMaps from "./src/components/SignupLoginAuth/SimpleMaps"
-
+import RouteCart from "./src/components/cart/RouteCart"
+import {configureStore} from "./src/redux/store/index"
+import {Provider} from "react-redux"
 const App: () => React$Node = () => {
   return (
       <View >
@@ -41,7 +43,7 @@ const App: () => React$Node = () => {
             {/* <Route/>         */}
             {/* <Signup/> */}
             {/* <Login/> */}
-            {/* <Route/> */}
+            <Route/>
             {/* <Signup/> */}
             {/* <Maps/> */}
             {/* <Map/> */}
@@ -51,6 +53,10 @@ const App: () => React$Node = () => {
 
             {/* <DistanceMaps/> */}
             {/* <TestExample/> */}
+{/*             
+            <Provider store={configureStore}>
+              <RouteCart/>
+            </Provider> */}
         </View>
       </View>
   );

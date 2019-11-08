@@ -31,10 +31,10 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger'
 // importing all reducers as many as we can have , in our case its one
 import {reducerTag} from '../reducers/index';
-
+import {cartReducer} from "../reducers/cart"
 const rootReducer = combineReducers({
     tags: reducerTag,
-    
+    carts: cartReducer
 });
 
 //const middlewares = [thunk];

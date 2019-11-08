@@ -179,13 +179,18 @@ export default class Signup extends React.Component {
     //     this.simplemapping()
     //   }
     // }
+
+
     async handleSubmit(values) {
+      console.log("dsdsd",this)
       const arr=JSON.stringify(values);
-      Alert.alert(arr)
+      // Alert.alert(arr)
       const store = await AsyncStorage.setItem('array',arr);
-      // if(store){
-      Keyboard.dismiss()
       this.simplemapping()
+      return true;
+      // if(store){
+      // Keyboard.dismiss()
+      // this.simplemapping()
 
 
       //   this.test()
@@ -193,7 +198,10 @@ export default class Signup extends React.Component {
       // const c = await AsyncStorage.getItem('array')
       // console.log("get item", c)
     }
+
+
     simplemapping(){
+      console.log("MAPPING")
       Actions.simpleMap()
     }
     render(){
@@ -210,7 +218,7 @@ export default class Signup extends React.Component {
                   //   password: '',
                   //   confirmPassword: ''
                   // }}
-                  onSubmit={this.handleSubmit}
+                  onSubmit={this.handleSubmit.bind(this)}
                   // onSubmit={(values, actions) => {
                   //     alert(values);
                   //     console.log(values)
@@ -279,6 +287,7 @@ export default class Signup extends React.Component {
                           <ActivityIndicator />
                       ) : (
                           <Button title="Submit" onPress={formikProps.handleSubmit} />
+                          
                           // <Button title="Submit" onPress={this.onSubmitHandler.bind(this)} />
 
                       )}
