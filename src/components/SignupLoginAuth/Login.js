@@ -128,7 +128,7 @@ export default class Login extends React.Component {
     onLogin() {
         const { name, password } = this.state;
         if (name === "mudassir" && password ==="mudassir"){
-            Alert.alert('Credentials', `${name} + ${password}`);
+            Alert.alert('Credentials', `name = ${name} and password = ${password}`);
             Keyboard.dismiss()
             this.simplemapping()
             // this.test()

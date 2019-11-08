@@ -28,6 +28,9 @@ import Maps from "./src/components/SignupLoginAuth/Maps"
 import Map from "./src/components/SignupLoginAuth/Map"
 import MapTest from "./src/components/SignupLoginAuth/MapTest"
 import SimpleMap from "./src/components/SignupLoginAuth/SimpleMap"
+import DistanceMaps from "./src/components/SignupLoginAuth/DistanceMaps"
+import TestExample from "./src/components/SignupLoginAuth/TestExample"
+import SimpleMaps from "./src/components/SignupLoginAuth/SimpleMaps"
 
 const App: () => React$Node = () => {
   return (
@@ -38,12 +41,16 @@ const App: () => React$Node = () => {
             {/* <Route/>         */}
             {/* <Signup/> */}
             {/* <Login/> */}
-            <Route/>
+            {/* <Route/> */}
             {/* <Signup/> */}
             {/* <Maps/> */}
             {/* <Map/> */}
             {/* <MapTest/> */}
             {/* <SimpleMap/> */}
+            {/* <SimpleMaps/> */}
+
+            {/* <DistanceMaps/> */}
+            {/* <TestExample/> */}
         </View>
       </View>
   );
