@@ -1,12 +1,19 @@
 /*This is an Example of React Native Map*/
 import React from 'react';
-import { StyleSheet, Text, View , TextInput} from 'react-native';
+import { StyleSheet, Text, View , TextInput, TouchableOpacity, Button} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
- 
+import {Actions} from 'react-native-router-flux';
+
 export default class App extends React.Component {
+    backtologin(){
+        Actions.login()
+      }
     render() {
         return (
+            
             <View style={styles.container}>
+                <Text>Already have an account?</Text>
+            <TouchableOpacity onPress={this.backtologin}><Text>LOGOUT</Text></TouchableOpacity>
             <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
@@ -28,6 +35,8 @@ export default class App extends React.Component {
                 description={'This is a description about faisal town'}
             />
             </MapView>
+            
+
         </View>
         );
     }
@@ -49,5 +58,6 @@ export default class App extends React.Component {
         left:0,
         right:0,
         bottom:0,
+        height: 600
     },
 });

@@ -165,6 +165,7 @@ export default class Signup extends React.Component {
     goBack() {
       Actions.pop();
     }
+
     h1 = async (values, actions) => {
       alert(JSON.stringify(values))
       // try {
@@ -173,18 +174,28 @@ export default class Signup extends React.Component {
       //   // Error saving data
       // }
     };
+    // success () {
+    //   if(this.handleSubmit()){
+    //     this.simplemapping()
+    //   }
+    // }
     async handleSubmit(values) {
       const arr=JSON.stringify(values);
-      alert(arr)
+      Alert.alert(arr)
       const store = await AsyncStorage.setItem('array',arr);
-      if(store){
-        Keyboard.dismiss()
-        this.test()
-      }
+      // if(store){
+      Keyboard.dismiss()
+      this.simplemapping()
+
+
+      //   this.test()
+      // }
       // const c = await AsyncStorage.getItem('array')
       // console.log("get item", c)
     }
-  
+    simplemapping(){
+      Actions.simpleMap()
+    }
     render(){
       // const {name} = this.state
       // console.log(name)

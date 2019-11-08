@@ -5,6 +5,9 @@ import Login from './Login';
 import Signup from './Signup';
 import Test from "./Test"
 import SimpleMap from "./SimpleMap"
+import Maps from "./Maps"
+import Map from "./Map"
+import MapTest from "./MapTest"
 export default class Routes extends Component {
 	render() {
 		return(
@@ -15,6 +18,10 @@ export default class Routes extends Component {
 				  <Scene key="test" component={Test} title="Test"/>
 				  <Scene key="testBackToLogin" component={Login} title="Login"/>
 				  <Scene key="simpleMap" component={SimpleMap} title="simplemap"/>
+				  <Scene key="maps" component={Maps} title="maps"/>
+				  <Scene key="map" component={Map} title="map"/>
+				  <Scene key="maptest" component={MapTest} title="maptest"/>
+
 			    </Stack>
 			 </Router>
 			)

@@ -99,7 +99,7 @@ const validationSchema = yup.object().shape({
 //     ),
 });
 
-export default class Login extends React.Component {
+export default class LoginTest extends React.Component {
     constructor(props){
       super(props);
       this.state = {
@@ -125,44 +125,44 @@ export default class Login extends React.Component {
     // onSubmitHandler = () => {
     //     <Test/>
     // }
-    onLogin() {
-        const { name, password } = this.state;
-        if (name === "mudassir" && password ==="mudassir"){
-            Alert.alert('Credentials', `${name} + ${password}`);
-            Keyboard.dismiss()
-            this.simplemapping()
-            // this.test()
-            // <Test/>
-        }else{
-            Alert.alert('Credentials are wrong');
-        }
+    // onLogin() {
+    //     const { name, password } = this.state;
+    //     if (name === "mudassir" && password ==="mudassir"){
+    //         Alert.alert('Credentials', `${name} + ${password}`);
+    //         Keyboard.dismiss()
+    //         this.simplemapping()
+    //         // this.test()
+    //         // <Test/>
+    //     }else{
+    //         Alert.alert('Credentials are wrong');
+    //     }
         
-      }
-    test() {
-	  	Actions.test()
-    }
-    simplemapping(){
-      Actions.simpleMap()
-    }
-    maps(){
-      Actions.maps()
-    }
-    maptest(){
-      Actions.maptest()
-    }
-    map(){
-      Actions.map()
-    }
-    signup(){
-      Actions.signup()
-    }
+    //   }
+    // test() {
+	//   	Actions.test()
+    // }
+    // simplemapping(){
+    //   Actions.simpleMap()
+    // }
+    // maps(){
+    //   Actions.maps()
+    // }
+    // maptest(){
+    //   Actions.maptest()
+    // }
+    // map(){
+    //   Actions.map()
+    // }
+    // signup(){
+    //   Actions.signup()
+    // }
     render(){
       // const {name} = this.state
       // console.log(name)
         return(
             <SafeAreaView style={{ marginTop: 90 }}>
                 <Text style={{fontSize: 30, textAlign: "center"}}>Login</Text>
-                <Text style={{ textAlign: "center"}}>Please enter mudassir in both fields for now</Text>
+                <Text style={{ textAlign: "center"}}>Enter mudassir in both fields</Text>
                 <Formik
                 initialValues={this.state}
                 // initialValues={{

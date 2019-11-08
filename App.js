@@ -38,12 +38,12 @@ const App: () => React$Node = () => {
             {/* <Route/>         */}
             {/* <Signup/> */}
             {/* <Login/> */}
-            {/* <Route/> */}
+            <Route/>
             {/* <Signup/> */}
             {/* <Maps/> */}
             {/* <Map/> */}
             {/* <MapTest/> */}
-            <SimpleMap/>
+            {/* <SimpleMap/> */}
         </View>
       </View>
   );
