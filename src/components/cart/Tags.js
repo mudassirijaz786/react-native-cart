@@ -39,11 +39,11 @@ class Tags extends Component {
                 )
             }
         })
-    
     }
     render() {
         return (
             <View style={styles.container}>
+                <Text style={styles.titleText}>{this.props.products.length} locations are availible</Text>
                 {this.renderProducts(this.props.products)}
             </View>
         );
@@ -63,6 +63,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        // justifyContent: 'center'
-    }
+        // justifyContent: 'center',
+    },
+    titleText: {
+        fontSize: 25,
+        textAlign: "center",
+    },
 });

@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     TouchableHighlight,
-    TouchableOpacity
+    TouchableOpacity,
+    Button
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -21,18 +22,18 @@ import {removeFromList} from "../../redux/actions/index"
     render() {
         return (
             <View style={styles.container}>
-                <Text>Items in List</Text>
-                <Text>You have {this.props.listItems.length} saved locations</Text>
+                <Text style={styles.titleText}>Locations saved in List</Text>
+                <Text style={styles.secondaryText}>You have {this.props.listItems.length} saved locations right now</Text>
                 <FlatList
                 data={this.props.listItems}
                 renderItem={({item, index,separators}) => (
                     <TouchableOpacity
-                      onPress={this.props.removeItemFromCart}
-                      onPress={()=>this.deleteItemt(item)}  
+                    //   onPress={this.props.removeItemFromCart}
+                        
                       onShowUnderlay={separators.highlight}
                       onHideUnderlay={separators.unhighlight}>
-                      <View style={{backgroundColor: 'white'}}>
-                        <Text>{item.name}</Text>
+                      <View style={styles.itemsInFlatList}>
+                        <Button onPress={()=>this.deleteItemt(item)} title={item.name}></Button>
                       </View>
                     </TouchableOpacity>
                     
@@ -59,6 +60,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 400
+    },
+    titleText: {
+        fontSize: 25,
+    },
+    secondaryText: {
+        fontSize: 20,
+        color: "green",
+        marginBottom: 50
+    },
+    itemsInFlatList: {
+        marginBottom: 25
     }
 });
