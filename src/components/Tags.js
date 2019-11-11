@@ -44,7 +44,7 @@ class Tags extends Component {
         return (
             <View style={styles.container}>
                 <TextInput
-                    placeholder = "Procurar Trabalho"
+                    placeholder = "search"
                     //onChange={(e) => actionTagDelete(e.target.value)}
                     //value={value} 
                     onChangeText={ (e)=>this.search(e)}

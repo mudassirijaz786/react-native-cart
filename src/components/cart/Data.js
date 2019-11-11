@@ -1,17 +1,14 @@
 export const electronics = [
     {
         id: 1,
-        name: 'Fifa 19',
-        price: 49.99
+        name: 'Los Angeles',
     },
     {
         id: 2,
-        name: 'Amazon Echo',
-        price: 199
+        name: 'San Fransisco',
     },
     {
         id: 3,
-        name: 'Bose QC 35 Headphones',
-        price: 300
+        name: 'Bay area',
     }
 ]

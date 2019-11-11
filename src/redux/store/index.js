@@ -41,8 +41,11 @@ const rootReducer = combineReducers({
 const loggerMiddleware = createLogger()
 
 const configureStore = () => {
-    return createStore(rootReducer, applyMiddleware(thunkMiddleware , loggerMiddleware)); // createStore accepts onr reducer that can be combine reducers
+    return createStore(rootReducer , applyMiddleware(thunkMiddleware , loggerMiddleware)); // createStore accepts onr reducer that can be combine reducers
 };
 
 export default configureStore;
+
+
+
 

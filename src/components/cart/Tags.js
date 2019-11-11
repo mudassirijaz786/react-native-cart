@@ -9,12 +9,16 @@ import {
 class Tags extends Component {
 
     renderProducts = (products) => {
-        console.log(products)
+        console.log("Products", products)
+        products.filter(item => item.id !==products.id)
         return products.map((item, index) => {
             return (
                 <View key={index} style={{ padding: 20 }}>
-                     <Text>{item.name + " and " + item.price}</Text>
-                    <Button onPress={() => this.props.onPress(item)} title="Add to cart"/>
+                    <Text>{item.name }</Text>
+                     {/* {item.name.filter(i => i !==item.i)}? */}
+                    <Button onPress={() => this.props.onPress(item)} title="Save this location"/>
+                    <Button onPress={() => this.props.onPress(item)} title="Remove this location"/>
+
                 </View>
             )
         })

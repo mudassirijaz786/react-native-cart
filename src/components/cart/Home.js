@@ -27,7 +27,7 @@ export default class Home extends React.Component {
 
         return(
             <View>
-                <Text>Hey from home</Text>
+                <Text>This is home screen</Text>
                 <TouchableOpacity onPress={this.ActionOnLocation}><Text>View LOCATION screen</Text></TouchableOpacity>
                 <TouchableOpacity onPress={this.ActionOnCart}><Text>View CART screen</Text></TouchableOpacity>
 
