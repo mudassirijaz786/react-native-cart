@@ -10,12 +10,11 @@ import {
   TouchableOpacity,
   AsyncStorage,
   Keyboard,
-  Alert
+  Alert,
+  StyleSheet
 } from 'react-native';
-
 import {Actions} from 'react-native-router-flux';
-
-
+import { Colors } from 'react-native-paper';
 export default class Home extends React.Component {
     ActionOnLocation(){
         Actions.tags()
@@ -24,16 +23,40 @@ export default class Home extends React.Component {
         Actions.show()
     }
     render(){
-
         return(
-            <View>
-                <Text>This is home screen</Text>
-                <TouchableOpacity onPress={this.ActionOnLocation}><Text>View LOCATION screen</Text></TouchableOpacity>
-                <TouchableOpacity onPress={this.ActionOnCart}><Text>View CART screen</Text></TouchableOpacity>
+            <View style={styles.container}>
+                <Text style={styles.titleText}>
+                    This is home screen
+                </Text>
+                <TouchableOpacity 
+                    onPress={this.ActionOnLocation}>
+                    <Text style={styles.secondaryText} >
+                        Available Locations
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={this.ActionOnCart}>
+                    <Text style={styles.secondaryText} >
+                        Your Saved Locations
+                    </Text>
+                </TouchableOpacity>
 
             </View>
-
         )
     }
-  
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 400
+    },
+    titleText: {
+        fontSize: 25,
+    },
+    secondaryText: {
+        fontSize: 20,
+        color: "blue"
+    }
+});

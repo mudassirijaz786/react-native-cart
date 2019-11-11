@@ -29,7 +29,6 @@ import {removeFromList} from "../../redux/actions/index"
                     <TouchableOpacity
                       onPress={this.props.removeItemFromCart}
                       onPress={()=>this.deleteItemt(item)}  
-
                       onShowUnderlay={separators.highlight}
                       onHideUnderlay={separators.unhighlight}>
                       <View style={{backgroundColor: 'white'}}>
