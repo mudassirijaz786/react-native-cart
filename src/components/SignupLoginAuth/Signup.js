@@ -186,7 +186,7 @@ export default class Signup extends React.Component {
       const arr=JSON.stringify(values);
       // Alert.alert(arr)
       const store = await AsyncStorage.setItem('array',arr);
-      this.simplemapping()
+      this.goHome()
       return true;
       // if(store){
       // Keyboard.dismiss()
@@ -204,11 +204,14 @@ export default class Signup extends React.Component {
       console.log("MAPPING")
       Actions.simpleMap()
     }
+    goHome(){
+      Actions.home()
+    }
     render(){
       // const {name} = this.state
       // console.log(name)
         return(
-            <SafeAreaView style={{ marginTop: 90 }}>
+            <SafeAreaView style={{ marginTop: 50 }}>
                 <Text style={{fontSize: 30, textAlign: "center"}}>Signup</Text>
                 <Formik
                   initialValues={this.state}

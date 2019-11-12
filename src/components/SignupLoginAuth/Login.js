@@ -130,14 +130,21 @@ export default class Login extends React.Component {
         if (name === "testuser" && password ==="testuser"){
             // Alert.alert('Credentials', `name = ${name} and password = ${password}`);
             // Keyboard.dismiss()
-            this.simplemapping()
+            // this.simplemapping()
             // this.test()
+            this.toHome()
             // <Test/>
         }else{
-            Alert.alert('Credentials are wrong');
+          Alert.alert(
+            'Wrong Credential',
+            'Please fill in all fields correctly',
+          );
         }
         
       }
+    toHome(){
+      Actions.home()
+    }
     test() {
 	  	Actions.test()
     }

@@ -33,7 +33,8 @@ import {removeFromList} from "../../redux/actions/index"
                       onShowUnderlay={separators.highlight}
                       onHideUnderlay={separators.unhighlight}>
                       <View style={styles.itemsInFlatList}>
-                        <Button onPress={()=>this.deleteItemt(item)} title={item.name}></Button>
+                        <Text>{item.name}</Text>
+                        <Button onPress={()=>this.deleteItemt(item)} title="Remove"></Button>
                       </View>
                     </TouchableOpacity>
                     

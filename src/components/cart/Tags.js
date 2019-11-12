@@ -34,7 +34,7 @@ class Tags extends Component {
                 return (
                     <View key={index} style={{ padding: 20 }}>
                         <Text>{item.name}</Text>
-                        <Button onPress={() => this.props.onPress(item)} title="Save"/>
+                        <Button onPress={() => this.props.onPress(item)} title="add to list"/>
                     </View>
                 )
             }

@@ -34,9 +34,14 @@ import SimpleMaps from "./src/components/SignupLoginAuth/SimpleMaps"
 import RouteCart from "./src/components/cart/RouteCart"
 import configureStore from "./src/redux/store/index"
 import {Provider} from "react-redux"
+import S from "react-native-side-menu"
+import BasicMenu from "./src/components/cart/BasicMenu"
 const store = configureStore()
-const App: () => React$Node = () => {
-  return (
+export default class App extends React.Component  {
+  render(){
+    // const menu = <Menu navigator={navigator}/>;
+ 
+    return (
       <View >
           <View style={{flexDirection: 'column', height: 1000, padding: 10}}>
             {/* <Text>Main application</Text> */}
@@ -55,15 +60,14 @@ const App: () => React$Node = () => {
             {/* <DistanceMaps/> */}
             {/* <TestExample/> */}
             
-            <Provider store={store}>
+            <Provider store={store}> 
               <RouteCart/>
-
             </Provider>
+
+            {/* <BasicMenu/> */}
         </View>
       </View>
   );
+  }
+  
 };
-
-
-
-export default App;
