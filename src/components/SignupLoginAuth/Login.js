@@ -2,7 +2,6 @@ import React from 'react';
 import {
   SafeAreaView,
   TextInput,
-  Button,
   ActivityIndicator,
   View,
   Text,
@@ -10,12 +9,16 @@ import {
   TouchableOpacity,
   AsyncStorage,
   Keyboard,
-  Alert
+  Alert,
+  StyleSheet
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import {Actions} from 'react-native-router-flux';
 import Test from "./Test"
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Button } from 'react-native-paper';
+
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
   <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
     <Text style={{ marginBottom: 3 }}>{label}</Text>
@@ -28,10 +31,14 @@ const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
 
 const StyledInput = ({ label, formikProps, formikKey, ...rest }) => {
   const inputStyles = {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 10,
-    marginBottom: 3,
+    borderWidth: 2,
+    borderColor: 'indigo',
+    // padding: 10,
+    marginBottom: -3,
+    marginTop: 1,
+    height: hp('8%'), // 70% of height device screen
+    width: wp('84%'),
+    
   };
 
   if (formikProps.touched[formikKey] && formikProps.errors[formikKey]) {
@@ -167,9 +174,13 @@ export default class Login extends React.Component {
       // const {name} = this.state
       // console.log(name)
         return(
-            <SafeAreaView style={{ marginTop: 90 }}>
-                <Text style={{fontSize: 30, textAlign: "center"}}>Login</Text>
-                <Text style={{ textAlign: "center"}}>Please enter "testuser" in both fields for now</Text>
+            <SafeAreaView style={styles.container}>
+                {/* <View style={styles.textWrapper}>
+                <Text style={styles.myText}>Login</Text>
+
+                </View> */}
+                
+                <Text style={{ textAlign: "center"}}>Please enter "testuser" in both fields</Text>
                 <Formik
                 initialValues={this.state}
                 // initialValues={{
@@ -189,11 +200,11 @@ export default class Login extends React.Component {
                 >
                 {formikProps => (
                     <React.Fragment>
-                    <StyledInput
-                        label="name"
+                    <StyledInput 
+                        label="Username"
                         formikProps={formikProps}
                         formikKey="name"
-                        placeholder="Username"
+                        placeholder="  Username"
                         // autoFocus
                         onChangeText={(name) => this.setState({ name })}
                         // value={this.state.name}
@@ -207,11 +218,11 @@ export default class Login extends React.Component {
                         autoFocus
                     /> */}
 
-                    <StyledInput
+                    <StyledInput 
                         label="Password"
                         formikProps={formikProps}
                         formikKey="password"
-                        placeholder="password"
+                        placeholder="  Password"
                         secureTsecureTextEntryextEntry
                         onChangeText={(password) => this.setState({ password })}
                         // value={this.state.password}
@@ -239,13 +250,12 @@ export default class Login extends React.Component {
                         // <Button title="Submit" onPress={this.showData()} />
                         // <Button title="Submit" onPress={this.onSubmitHandler()} />
                         
-                         <Button title="Submit" onPress={this.onLogin.bind(this)} />
-
+                         <Button color="white" style={styles.buttonMenu} onPress={this.onLogin.bind(this)}>Login</Button>
 
 
                     )}
-                    <Text>Already have an account?</Text>
-                    <TouchableOpacity onPress={this.signup}><Text> Signup</Text></TouchableOpacity>
+                    <Text style={styles.info}>Don't have an account?</Text>
+                    <TouchableOpacity style={styles.info} onPress={this.signup}><Text>Click here to Signup</Text></TouchableOpacity>
 
                     </React.Fragment>
                 )}
@@ -255,3 +265,45 @@ export default class Login extends React.Component {
     }
   
 }
+
+
+
+const styles = StyleSheet.create ({
+
+  container: {
+  //  width: "100%",
+  //  aspectRatio: 2,
+  //  backgroundColor: "green",
+  //  height: "100%"
+  flex: 1,
+  marginTop: 10
+
+},
+  boldText: {
+     fontSize: 30,
+     color: 'red',
+  },
+  
+  textWrapper: {
+    height: hp('10%'), // 70% of height device screen
+    width: wp('100%'),   // 80% of width device screen
+    backgroundColor: "blue"
+  },
+  myText: {
+    fontSize: hp('5%') // End result looks like the provided UI mockup
+  },
+  info: {
+    marginLeft: 20,
+    marginTop: 5
+  },
+  // button:{
+  //   width: wp("50%"),
+  //   color: "blue"
+  // }
+  buttonMenu:{
+    backgroundColor: "indigo",
+    marginBottom: 10,
+    width: wp("40%"),
+    marginLeft: 20
+  }
+});

@@ -2,22 +2,24 @@ import React from 'react';
 import {
   SafeAreaView,
   TextInput,
-  Button,
   ActivityIndicator,
   View,
   Text,
   Switch,
   TouchableOpacity,
-Alert,
+  Alert,
   AsyncStorage,
-  Keyboard
+  Keyboard,
+  StyleSheet
 } from 'react-native';
+import {Button} from "react-native-paper"
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import {Actions} from 'react-native-router-flux';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
-  <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+  <View style={{ marginHorizontal: 20, marginVertical: 3 }}>
     <Text style={{ marginBottom: 3 }}>{label}</Text>
     {children}
     <Text style={{ color: 'red' }}>
@@ -28,10 +30,13 @@ const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
 
 const StyledInput = ({ label, formikProps, formikKey, ...rest }) => {
   const inputStyles = {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 10,
-    marginBottom: 3,
+    borderWidth: 2,
+    borderColor: 'indigo',
+    // padding: 10,
+    marginBottom: -5,
+    marginTop: -1,
+    height: hp('7%'), // 70% of height device screen
+    width: wp('84%'),
   };
 
   if (formikProps.touched[formikKey] && formikProps.errors[formikKey]) {
@@ -211,9 +216,10 @@ export default class Signup extends React.Component {
       // const {name} = this.state
       // console.log(name)
         return(
-            <SafeAreaView style={{ marginTop: 50 }}>
-                <Text style={{fontSize: 30, textAlign: "center"}}>Signup</Text>
-                <Formik
+            <SafeAreaView style={styles.container}>
+              
+                {/* <Text style={{fontSize: 30, textAlign: "center"}}>Signup</Text> */}
+                <Formik 
                   initialValues={this.state}
                   // initialValues={{
                   //   name: '',
@@ -237,21 +243,21 @@ export default class Signup extends React.Component {
                   >
                   {formikProps => (
                       <React.Fragment>
-                      <StyledInput
-                          label="username"
+                      <StyledInput 
+                          label="Username"
                           formikProps={formikProps}
                           formikKey="name"
-                          placeholder="Username"
+                          placeholder="  Username"
                           // autoFocus
                           // onChange={this.handlerName}
                           // onChangeText={(name) => this.setState({ name })}
 
                       />
-                      <StyledInput
+                      <StyledInput 
                           label="Email"
                           formikProps={formikProps}
                           formikKey="email"
-                          placeholder="Email"
+                          placeholder="  Email"
                           // autoFocus
                           // onChange={this.handlerEmail}
                           // onChangeText={(email) => this.setState({ email })}
@@ -262,18 +268,18 @@ export default class Signup extends React.Component {
                           label="Password"
                           formikProps={formikProps}
                           formikKey="password"
-                          placeholder="Password"
+                          placeholder="  Password"
                           secureTextEntry
                           // onChange={this.handlerPassword}
                           // onChangeText={(password) => this.setState({ password })}
 
                       />
 
-                      <StyledInput
+                      <StyledInput 
                           label="Confirm Password"
                           formikProps={formikProps}
                           formikKey="confirmPassword"
-                          placeholder="Confirm password"
+                          placeholder="  Confirm password"
                           secureTextEntry
                           // onChange={this.handlerPasswordConfirm}
                           // onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
@@ -289,13 +295,13 @@ export default class Signup extends React.Component {
                       {formikProps.isSubmitting ? (
                           <ActivityIndicator />
                       ) : (
-                          <Button title="Submit" onPress={formikProps.handleSubmit} />
+                          <Button  color="white" style={styles.buttonMenu}  onPress={formikProps.handleSubmit} >Signup</Button>
                           
                           // <Button title="Submit" onPress={this.onSubmitHandler.bind(this)} />
 
                       )}
-                      <Text>Have an account?</Text>
-                      <TouchableOpacity onPress={this.goBack}><Text> Sign in</Text></TouchableOpacity>
+                      <Text style={styles.info}>Have an account?</Text>
+                      <TouchableOpacity style={styles.info} onPress={this.goBack}><Text>Click here to Login</Text></TouchableOpacity>
 
                       </React.Fragment>
                   )}
@@ -305,3 +311,48 @@ export default class Signup extends React.Component {
     }
   
 }
+const styles = StyleSheet.create ({
+
+  container: {
+   
+    flex: 1,
+    alignContent: "center",
+    marginTop: 5
+},
+  boldText: {
+     fontSize: 30,
+     color: 'red',
+  },
+  inputField:{
+    // height: "10%",
+    // // backgroundColor: "blue",
+    // borderWidth: 2,
+    // borderColor: "green",
+    // marginBottom: -5,
+    // marginTop: -8
+  },
+  boldText: {
+    fontSize: 30,
+    color: 'red',
+ },
+ 
+ textWrapper: {
+   height: hp('10%'), // 70% of height device screen
+   width: wp('100%'),   // 80% of width device screen
+   backgroundColor: "blue"
+ },
+ myText: {
+   fontSize: hp('5%') // End result looks like the provided UI mockup
+ },
+ info: {
+  marginLeft: 20,
+  marginTop: 5
+},
+buttonMenu:{
+  backgroundColor: "indigo",
+  marginBottom: 10,
+  width: wp("40%"),
+  marginLeft: 20,
+  
+}
+});

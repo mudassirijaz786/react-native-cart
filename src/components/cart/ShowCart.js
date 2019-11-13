@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     Button
 } from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { connect } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
@@ -23,7 +24,7 @@ import {removeFromList} from "../../redux/actions/index"
         return (
             <View style={styles.container}>
                 <Text style={styles.titleText}>Locations saved in List</Text>
-                <Text style={styles.secondaryText}>You have {this.props.listItems.length} saved locations right now</Text>
+                <Text style={styles.secondaryText}>You have {this.props.listItems.length} saved locations </Text>
                 <FlatList
                 data={this.props.listItems}
                 renderItem={({item, index,separators}) => (
@@ -34,7 +35,7 @@ import {removeFromList} from "../../redux/actions/index"
                       onHideUnderlay={separators.unhighlight}>
                       <View style={styles.itemsInFlatList}>
                         <Text>{item.name}</Text>
-                        <Button onPress={()=>this.deleteItemt(item)} title="Remove"></Button>
+                        <Button color="indigo"onPress={()=>this.deleteItemt(item)} title="Remove"></Button>
                       </View>
                     </TouchableOpacity>
                     
@@ -62,15 +63,23 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 400
+        marginBottom: 400,
+        height: hp('100%'), // 70% of height device screen
+        width: wp('100%'),
     },
     titleText: {
         fontSize: 25,
+        textAlign: 'center',
+
     },
     secondaryText: {
         fontSize: 20,
-        color: "green",
-        marginBottom: 50
+        color: "indigo",
+        marginBottom: 50,
+         height: hp('10%'), // 70% of height device screen
+        width: wp('100%'),
+        textAlign: 'center',
+
     },
     itemsInFlatList: {
         marginBottom: 25
