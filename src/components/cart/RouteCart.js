@@ -9,6 +9,7 @@ import Login from "../SignupLoginAuth/Login"
 import Signup from "../SignupLoginAuth/Signup"
 import DrawerContent from './DrawerContent';
 import icon from "../../../assets/menu.png"
+import Profile from "./Profile"
 export default class RouteCart extends Component {
 	render() {
 		return(
@@ -26,10 +27,10 @@ export default class RouteCart extends Component {
 				  <Scene key="home" component={Home} title="Home" />
                   <Scene key="tags" component={ElectronicsScreen} title="tags" />
                   <Scene key="show" component={ShowCart} title="Your saved Locations" />
-				  <Scene key="login" component={Login} title="Login" initial={true}/>
-				  <Scene key="signup" component={Signup} title="Signup"/>
-
+				  <Scene key="profile" component={Profile} title="My Profile" />
             	</Drawer>
+					<Scene key="login" component={Login} title="Login" initial={true}/>
+				  	<Scene key="signup" component={Signup} title="Signup"/>
 			    </Stack>
 				
 			 </Router>

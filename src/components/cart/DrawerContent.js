@@ -20,6 +20,9 @@ export default class DrawerContent extends React.Component {
     goAvailible(){
         Actions.tags()
     }
+    goProfile(){
+        Actions.profile()
+    }
     render(){
         return (
             <View style={ styles.container }>
@@ -28,10 +31,11 @@ export default class DrawerContent extends React.Component {
                 </View>
                 <View style={styles.bottomDrawer}>
                     <Button color="white" style={styles.buttonMenu} onPress={this.goHome}>Home</Button>
-                    <Button color="white" style={styles.buttonMenu} onPress={this.goLogin}>Login</Button>
-                    <Button color="white" style={styles.buttonMenu} onPress={this.goSignup}>Signup</Button>
+                    {/* <Button color="white" style={styles.buttonMenu} onPress={this.goLogin}>Login</Button> */}
+                    {/* <Button color="white" style={styles.buttonMenu} onPress={this.goSignup}>Signup</Button> */}
                     <Button color="white" style={styles.buttonMenu} onPress={this.goCart}>Saved</Button>
                     <Button color="white" style={styles.buttonMenu} onPress={this.goAvailible}>Availible</Button>
+                    <Button color="white" style={styles.buttonMenu} onPress={this.goProfile}>Profile</Button>
 
                 </View>
             </View>

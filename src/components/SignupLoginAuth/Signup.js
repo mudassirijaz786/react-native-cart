@@ -170,7 +170,9 @@ export default class Signup extends React.Component {
     goBack() {
       Actions.pop();
     }
-
+    goLogin(){
+      Actions.login()
+    }
     h1 = async (values, actions) => {
       alert(JSON.stringify(values))
       // try {
@@ -185,13 +187,27 @@ export default class Signup extends React.Component {
     //   }
     // }
 
-
+  //   async saveKey(email , password) {
+  //     try {
+  //         await AsyncStorage.setItem("name", email );
+  //         await AsyncStorage.setItem('password', password );
+  //     } 
+  //     catch (error) {
+  //         console.log("Error saving data" + error);
+  //     }
+  // }
     async handleSubmit(values) {
-      console.log("dsdsd",this)
-      const arr=JSON.stringify(values);
+      // console.log("dsdsd",this)
+      // const arr=JSON.stringify(values);
       // Alert.alert(arr)
-      const store = await AsyncStorage.setItem('array',arr);
-      this.goHome()
+      // console.log("arr",arr)
+      // console.log("Username",values.name)
+      await AsyncStorage.setItem('name',values.name);
+      await AsyncStorage.setItem('password',values.password);
+
+      // console.log("Get", name)
+      // Alert.alert(store)
+      this.goLogin()
       return true;
       // if(store){
       // Keyboard.dismiss()

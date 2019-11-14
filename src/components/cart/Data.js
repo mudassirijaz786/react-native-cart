@@ -10,5 +10,9 @@ export const electronics = [
     {
         id: 3,
         name: 'Bay area',
+    },
+    {
+        id: 4,
+        name: 'Lahore',
     }
 ]

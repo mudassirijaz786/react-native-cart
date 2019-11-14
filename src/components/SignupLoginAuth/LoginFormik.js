@@ -106,6 +106,7 @@ const validationSchema = yup.object().shape({
 //     ),
 });
 
+
 export default class Login extends React.Component {
     constructor(props){
       super(props);
@@ -115,7 +116,48 @@ export default class Login extends React.Component {
           password: '',
         //   confirmPassword: ''
       }
+      this.gettingLoginInformation()
     }
+    async handleSubmit(values) {
+      // console.log("dsdsd",this)
+      // const arr=JSON.stringify(values);
+      // Alert.alert(arr)
+      // console.log("arr",arr)
+      console.log("Username",values.name)
+      await AsyncStorage.setItem('name',values.name);
+      await AsyncStorage.setItem('password',values.password);
+
+      // console.log("Get", name)
+      // Alert.alert(store)
+      this.goLogin()
+      return true;
+      // if(store){
+      // Keyboard.dismiss()
+      // this.simplemapping()
+
+
+      //   this.test()
+      // }
+      // const c = await AsyncStorage.getItem('array')
+      // console.log("get item", c)
+    }
+    async gettingLoginInformation() {
+      try {
+          const name = await AsyncStorage.getItem('name');
+          const password = await AsyncStorage.getItem('password');
+          console.log("login name", name)
+          console.log("login password", password)
+
+          this.setState({  
+                  name: name,
+                  password: password
+          });
+
+      } 
+      catch (error) {
+          console.log("Error retrieving data" + error);
+      }
+  }
 
     // saveData =() => {
     //   const {name, email, password, confirmPassword} = this.initialValues
@@ -132,46 +174,23 @@ export default class Login extends React.Component {
     // onSubmitHandler = () => {
     //     <Test/>
     // }
-    async handleSubmit(values) {
-      // console.log("dsdsd",this)
-      // const arr=JSON.stringify(values);
-      // Alert.alert(arr)
-      // console.log("arr",arr)
-      // console.log("Username",values.name)
-      await AsyncStorage.setItem('name',values.name);
-      await AsyncStorage.setItem('password',values.password);
-
-      // console.log("Get", name)
-      // Alert.alert(store)
-      this.toHome()
-      return true;
-      // if(store){
-      // Keyboard.dismiss()
-      // this.simplemapping()
-
-
-      //   this.test()
-      // }
-      // const c = await AsyncStorage.getItem('array')
-      // console.log("get item", c)
-    }
-    // onLogin() {
-    //   const { name, password } = this.state;
-    //   if (name === this.gettingLoginInformation.name && password ===this.gettingLoginInformation.password){
-    //       // Alert.alert('Credentials', `name = ${name} and password = ${password}`);
-    //       // Keyboard.dismiss()
-    //       // this.simplemapping()
-    //       // this.test()
-    //       this.toHome()
-    //       // <Test/>
-    //   }else{
-    //     Alert.alert(
-    //       'Wrong Credential',
-    //       'Please fill in all fields correctly',
-    //     );
-    //   }
-      
-    // }
+    onLogin() {
+        const { name, password } = this.state;
+        if (name === this.gettingLoginInformation.name && password ===this.gettingLoginInformation.password){
+            // Alert.alert('Credentials', `name = ${name} and password = ${password}`);
+            // Keyboard.dismiss()
+            // this.simplemapping()
+            // this.test()
+            this.toHome()
+            // <Test/>
+        }else{
+          Alert.alert(
+            'Wrong Credential',
+            'Please fill in all fields correctly',
+          );
+        }
+        
+      }
     toHome(){
       Actions.home()
     }
@@ -203,7 +222,7 @@ export default class Login extends React.Component {
 
                 </View> */}
                 
-                {/* <Text style={{ textAlign: "center"}}>Please enter "testuser" in both fields</Text> */}
+                <Text style={{ textAlign: "center"}}>Please enter "testuser" in both fields</Text>
                 <Formik
                 initialValues={this.state}
                 // initialValues={{
@@ -212,9 +231,14 @@ export default class Login extends React.Component {
                 //   password: '',
                 //   confirmPassword: ''
                 // }}
-                onSubmit={this.handleSubmit.bind(this)}
-
-                validationSchema={validationSchema}
+                onSubmit={(values, actions) => {
+                    alert(JSON.stringify(values));
+                    console.log(values)
+                    setTimeout(() => {
+                    actions.setSubmitting(false);
+                    }, 1000);
+                }}
+                // validationSchema={validationSchema}
                 >
                 {formikProps => (
                     <React.Fragment>
@@ -224,7 +248,7 @@ export default class Login extends React.Component {
                         formikKey="name"
                         placeholder="  Username"
                         // autoFocus
-                        // onChangeText={(name) => this.setState({ name })}
+                        onChangeText={(name) => this.setState({ name })}
                         // value={this.state.name}
 
                     />
@@ -242,7 +266,7 @@ export default class Login extends React.Component {
                         formikKey="password"
                         placeholder="  Password"
                         secureTsecureTextEntryextEntry
-                        // onChangeText={(password) => this.setState({ password })}
+                        onChangeText={(password) => this.setState({ password })}
                         // value={this.state.password}
 
                     />
@@ -264,11 +288,11 @@ export default class Login extends React.Component {
                     {formikProps.isSubmitting ? (
                         <ActivityIndicator />
                     ) : (
-                      <Button  color="white" style={styles.buttonMenu}  onPress={formikProps.handleSubmit} >Login</Button>
-                      // <Button title="Submit" onPress={this.showData()} />
+                        // <Button title="Submit" onPress={formikProps.handleSubmit} />
+                        // <Button title="Submit" onPress={this.showData()} />
                         // <Button title="Submit" onPress={this.onSubmitHandler()} />
                         
-                        //  <Button color="white" style={styles.buttonMenu} onPress={this.onLogin.bind(this)}>Login</Button>
+                         <Button color="white" style={styles.buttonMenu} onPress={this.onLogin.bind(this)}>Login</Button>
 
 
                     )}

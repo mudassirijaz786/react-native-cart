@@ -46,6 +46,8 @@ target 'redux_fetch' do
 
 
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'redux_fetchTests' do
     inherit! :search_paths
     # Pods for testing
