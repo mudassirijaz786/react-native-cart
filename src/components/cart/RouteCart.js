@@ -28,9 +28,11 @@ export default class RouteCart extends Component {
                   <Scene key="tags" component={ElectronicsScreen} title="tags" />
                   <Scene key="show" component={ShowCart} title="Your saved Locations" />
 				  <Scene key="profile" component={Profile} title="My Profile" />
+
             	</Drawer>
 					<Scene key="login" component={Login} title="Login" initial={true}/>
-				  	<Scene key="signup" component={Signup} title="Signup"/>
+				  	<Scene key="signup" component={Signup} title="Signup" />
+
 			    </Stack>
 				
 			 </Router>

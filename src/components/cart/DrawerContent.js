@@ -36,6 +36,7 @@ export default class DrawerContent extends React.Component {
                     <Button color="white" style={styles.buttonMenu} onPress={this.goCart}>Saved</Button>
                     <Button color="white" style={styles.buttonMenu} onPress={this.goAvailible}>Availible</Button>
                     <Button color="white" style={styles.buttonMenu} onPress={this.goProfile}>Profile</Button>
+                    <Button color="white" style={styles.buttonMenu} onPress={this.goLogin}>Logout</Button>
 
                 </View>
             </View>

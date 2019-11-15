@@ -68,12 +68,18 @@ const StyledSwitch = ({ formikKey, formikProps, label, ...rest }) => (
 );
 
 const validationSchema = yup.object().shape({
-    name: yup
-    .string()
-    .label('Username')
-    .required(),
-    // .min(5, 'username cannnot be <= 2')
-    // .max(15, 'please enter a username =< 15'),
+  firstname: yup
+  .string()
+  .label('firstname')
+  .required(),
+  // .min(5, 'username cannnot be <= 2')
+  // .max(15, 'please enter a username =< 15'),
+  lastname: yup
+  .string()
+  .label('lastname')
+  .required(),
+  // .min(5, 'username cannnot be <= 2')
+  // .max(15, 'please enter a username =< 15'),
   email: yup
     .string()
     .label('Email')
@@ -83,7 +89,7 @@ const validationSchema = yup.object().shape({
     .string()
     .label('Password')
     .required()
-    .min(5, 'password should be greater than 5'),
+    .min(6, 'password should be greater than 6'),
     // .max(15, 'password cannot be >= 15'),
   confirmPassword: yup
     .string()
@@ -108,13 +114,41 @@ export default class Signup extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-          name: '',
+          firstname: '',
+          lastname: '',
           email: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
+          errorMsgSignup: ''
       }
     }
-    
+    async API_CALL(JsonObj) {
+      const url = 'https://space-rental.herokuapp.com/users/create_user';
+      try {
+          const response = await fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(JsonObj), // data can be `string` or {object}!
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const json = await response.json();
+          console.log('Results:', JSON.stringify(json));
+          if(!json.success){
+            console.log("THERE IS ERROR")
+            this.setState({
+              errorMsgSignup: `email ${json.user.email}`,
+            })
+          }else{
+            this.goLogin()
+          }
+      } 
+      catch (error) {
+          console.error('Error:', error);
+      }
+    }
+
+
     // handlerName = (e) =>{
     //   console.log("Name", e.nativeEvent.text)
     //   this.setState({
@@ -202,18 +236,31 @@ export default class Signup extends React.Component {
       // Alert.alert(arr)
       // console.log("arr",arr)
       // console.log("Username",values.name)
-      await AsyncStorage.setItem('name',values.name);
-      await AsyncStorage.setItem('password',values.password);
+              //  await AsyncStorage.setItem('name',values.name);
+              // await AsyncStorage.setItem('password',values.password);
 
       // console.log("Get", name)
       // Alert.alert(store)
-      this.goLogin()
-      return true;
+                  // this.goLogin()
+                    // return true;
       // if(store){
       // Keyboard.dismiss()
       // this.simplemapping()
+      if (values){
+        // this.saveKey(values.email ,  values.password);
 
-
+            //creating obj with same keys for API call
+            var obj = {};
+            obj["first_name"] = values.firstname;
+            obj["last_name"] = values.lastname;
+            obj["email"] = values.email;
+            obj["password"] = values.password;
+            obj["password_confirmation"]= values.confirmPassword
+            this.API_CALL(obj);
+            console.log("obj",obj)
+            // this.props.onSignInPress();
+      } 
+     
       //   this.test()
       // }
       // const c = await AsyncStorage.getItem('array')
@@ -259,11 +306,22 @@ export default class Signup extends React.Component {
                   >
                   {formikProps => (
                       <React.Fragment>
+                        <Text style={styles.error}>{this.state.errorMsgSignup}</Text>
                       <StyledInput 
-                          label="Username"
+                          label="firstname"
                           formikProps={formikProps}
-                          formikKey="name"
-                          placeholder="  Username"
+                          formikKey="firstname"
+                          placeholder="  First name"
+                          // autoFocus
+                          // onChange={this.handlerName}
+                          // onChangeText={(name) => this.setState({ name })}
+
+                      />
+                        <StyledInput 
+                          label="lastname"
+                          formikProps={formikProps}
+                          formikKey="lastname"
+                          placeholder="  Last name"
                           // autoFocus
                           // onChange={this.handlerName}
                           // onChangeText={(name) => this.setState({ name })}
@@ -317,7 +375,7 @@ export default class Signup extends React.Component {
 
                       )}
                       <Text style={styles.info}>Have an account?</Text>
-                      <TouchableOpacity style={styles.info} onPress={this.goBack}><Text>Click here to Login</Text></TouchableOpacity>
+                      <TouchableOpacity style={styles.info} onPress={this.goLogin}><Text>Click here to Login</Text></TouchableOpacity>
 
                       </React.Fragment>
                   )}
@@ -370,5 +428,8 @@ buttonMenu:{
   width: wp("40%"),
   marginLeft: 20,
   
+},
+error:{
+  color: "red"
 }
 });

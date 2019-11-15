@@ -5,7 +5,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ImagePicker from 'react-native-image-picker';
-
+import loginApi from "../SignupLoginAuth/Login"
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
     <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
       <Text style={{ marginBottom: 3 }}>{label}</Text>
@@ -76,11 +76,15 @@ export class Profile extends Component {
         super(props);
         this.state = {
             name: '',
+            firstname: '',
+            lastname: '',
+            email: '',
             newName: '',
             avatarSource: null,
             imageReplaced: false,
             inputFieldHideShow: false,
         }
+        this.API_CALL()
         this.getUsernameFromLogin()
         this.getUsernameFromEdit()
         this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
@@ -120,6 +124,7 @@ export class Profile extends Component {
             console.log("Error retrieving data" + error);
         }
     }
+   
     selectPhotoTapped() {
         const options = {
           quality: 1.0,
@@ -147,7 +152,7 @@ export class Profile extends Component {
     
             this.setState({
               avatarSource: source,
-              imageReplaced: false
+              // imageReplaced: false
             });
           }
         });
@@ -158,15 +163,23 @@ export class Profile extends Component {
         // Alert.alert(arr)
         // console.log("arr",arr)
         // console.log("Username",values.name)
-        const name = await AsyncStorage.getItem('name', values.name);
+                // const name = await AsyncStorage.getItem('name', values.name);
+                // console.log("mmmmm",name)
+        // this.setState({
+        //     name: name
+        // })
+        const name = values.firstname
+        // Alert.alert(arr)
+      
         this.setState({
-            name: name
+          firstname: name
         })
         console.log("HHH")
+
         // console.log("Get", name)
         // Alert.alert(store)
         // this.toHome()
-        return true;
+        // return true;
         // if(store){
         // Keyboard.dismiss()
         // this.simplemapping()
@@ -192,18 +205,54 @@ export class Profile extends Component {
       saveUsername(){
           console.log("Saved ")
       }
+      gettingInfo(){
+        var obj = {};
+        
+        console.log("In getting method")
+        // this.API_CALL()
+      }
+      async API_CALL(){
+        // const {id} = this.props.loginApi().id
+        console.log("Check if there is any id or not? ", id)
+        const url = `https://space-rental.herokuapp.com/users/83/user_details`;
+        //  const url = "https://space-rental.herokuapp.com/users/17/user_details";
+        // console.log("ID", id)
+        try {
+            const response = await fetch(url, {
+              method: 'GET', // or 'PUT'
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            const json = await response.json();
+            console.log('Results:', JSON.stringify(json));   
+            console.log("USERNAME in Profile", json.user.first_name)
+            this.setState({
+              firstname: json.user.first_name,
+              lastname: json.user.last_name,
+              email: json.user.email
+
+            })              
+        } 
+        catch (error) {
+            console.error('Error:', error);
+        }
+      }
     render() {
         return (
             <View style={styles.container}>
-                 
+                  <Text   style={styles.text} onPress={this.gettingInfo}>YOUR INFORMATION</Text>
+                  <Text style={styles.info}> Full name: {this.state.firstname} {this.state.lastname}</Text>
+                  <Text style={styles.info}> Email: {this.state.email}</Text>
+
                  <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
           <View
-            style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
+            style={[styles.avatar, styles.avatarContainer, {marginBottom: 30, marginTop: 30}]}>
             {this.state.avatarSource === null ? (
                 <View>
-                <Text style={{marginLeft: 15}}>Select Image</Text>
+                <Text style={{marginLeft: 15, marginBottom: 10}}>Select Photo</Text>
                 <Image
-                    style={{width: 50, height: 50, margin: 30}}
+                    style={{width: 50, height: 50, marginLeft: 26}}
                     source={require('../../../assets/profile.png')}
                 />
                 </View>
@@ -227,10 +276,10 @@ export class Profile extends Component {
                 >
                 {formikProps => (
                     <React.Fragment>
-                    <StyledInput 
+                    <StyledInput style={styles.inputField}
                         label="Your Name"
                         formikProps={formikProps}
-                        formikKey="name"
+                        formikKey="firstname"
                         placeholder="  New Username"
                     
 
@@ -252,10 +301,10 @@ export class Profile extends Component {
                 </Formik>
             ) : (
                 <View>
-                  <Text style={styles.smallText}> Your Name</Text>
-                  <Text>{this.state.name}</Text>
+                  <Text style={styles.usernameText}> Your Name</Text>
+                  <Text style={styles.name}>{this.state.firstname}</Text>
 
-                <Button  color="white" style={styles.buttonMenu}  onPress={this.editUsername.bind(this)}>Edit</Button>
+                <Button  style={styles.editButton} color="white" style={styles.buttonMenu}  onPress={this.editUsername.bind(this)}>Edit</Button>
                 </View>
 
             )}
@@ -278,11 +327,31 @@ const styles = StyleSheet.create ({
   
   },
 
-      avatarContainer: {
+  avatarContainer: {
     borderColor: '#9B9B9B',
     borderWidth: 1 / PixelRatio.get(),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  usernameText: {
+   fontSize: 15,
+  //  textAlign: "center"
+  },
+  info:{
+    fontSize: 15,
+    alignContent: "stretch"
+  },
+  inputField:{
+    borderBottomColor: "indigo",
+    // padding: 10,
+    marginBottom: -10,
+    // marginTop: 1,
+    height: hp('8%'), // 70% of height device screen
+    width: wp('40%'),
+  },
+  editButton:{
+    marginTop: 20,
+
   },
     titleText: {
         fontSize: 25,
@@ -292,13 +361,19 @@ const styles = StyleSheet.create ({
         fontSize: 15,
         marginTop : 30
     },
-  
+    name: {
+      fontSize: 20
+    },
     buttonMenu:{
       backgroundColor: "indigo",
       marginTop: 10,
       width: wp("40%"),
       marginLeft: 20,
 
+    },
+    text:{
+      color: "indigo",
+      marginBottom: 10,
     },
     save:{
         backgroundColor: "indigo",

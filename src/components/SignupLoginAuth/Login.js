@@ -70,10 +70,10 @@ const StyledSwitch = ({ formikKey, formikProps, label, ...rest }) => (
 );
 
 const validationSchema = yup.object().shape({
-    name: yup
-        .string()
-        .label('Username')
-        .required(),
+    // name: yup
+    //     .string()
+    //     .label('Username')
+    //     .required(),
     // .min(5, 'username cannnot be <= 2')
     // .max(15, 'please enter a username =< 15'),
     // email: yup
@@ -81,6 +81,11 @@ const validationSchema = yup.object().shape({
     //     .label('Email')
     //     .email()
     //     .required(),
+    email: yup
+    .string()
+    .label('Email')
+    .email()
+    .required(),
     password: yup
         .string()
         .label('Password')
@@ -110,9 +115,10 @@ export default class Login extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-          name: '',
+          email: '',
         //   email: '',
           password: '',
+          errorMsg: ''
         //   confirmPassword: ''
       }
     }
@@ -132,23 +138,71 @@ export default class Login extends React.Component {
     // onSubmitHandler = () => {
     //     <Test/>
     // }
+    async loginCall(JsonObj) {
+
+      const url = 'https://space-rental.herokuapp.com/users/sign_in_call';
+  
+      
+      try {
+          const response = await fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(JsonObj), // data can be `string` or {object}!
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const json = await response.json();
+        
+          if(json.success){
+           
+            console.log('Results:', JSON.stringify(json));
+            console.log("json login",json.success)
+            console.log("ID", json.user.first_name)
+  
+          
+            this.toHome()
+          }else{
+            this.setState({
+              errorMsg: json.message
+            })
+            
+          }
+          
+      } 
+      catch (error) {
+          console.error('Error:', error);
+      }
+  }
     async handleSubmit(values) {
       // console.log("dsdsd",this)
       // const arr=JSON.stringify(values);
       // Alert.alert(arr)
       // console.log("arr",arr)
       // console.log("Username",values.name)
-      await AsyncStorage.setItem('name',values.name);
-      await AsyncStorage.setItem('password',values.password);
+              // await AsyncStorage.setItem('email',values.email);
+              // await AsyncStorage.setItem('password',values.password);
 
       // console.log("Get", name)
       // Alert.alert(store)
-      this.toHome()
-      return true;
+              // this.toHome()
+              // return true;
       // if(store){
       // Keyboard.dismiss()
       // this.simplemapping()
+      if (values){
+        //    this.props.onLoginInPress();
 
+        //creating obj with same keys for API call
+        var obj = {};
+        obj["email"] = values.email;
+        obj["password"] = values.password; 
+        this.loginCall(obj);
+        console.log(obj)
+        // if(success){
+          
+        // }
+        // this.toHome()
+    }
 
       //   this.test()
       // }
@@ -193,6 +247,9 @@ export default class Login extends React.Component {
     signup(){
       Actions.signup()
     }
+    goProfile(){
+      Actions.profile()
+    }
     render(){
       // const {name} = this.state
       // console.log(name)
@@ -218,7 +275,7 @@ export default class Login extends React.Component {
                 >
                 {formikProps => (
                     <React.Fragment>
-                    <StyledInput 
+                    {/* <StyledInput 
                         label="Username"
                         formikProps={formikProps}
                         formikKey="name"
@@ -227,7 +284,7 @@ export default class Login extends React.Component {
                         // onChangeText={(name) => this.setState({ name })}
                         // value={this.state.name}
 
-                    />
+                    /> */}
                     {/* <StyledInput
                         label="Email"
                         formikProps={formikProps}
@@ -235,13 +292,23 @@ export default class Login extends React.Component {
                         placeholder="Email"
                         autoFocus
                     /> */}
+                      <Text style={styles.error}>{this.state.errorMsg}</Text>
+                      <StyledInput 
+                          label="Email"
+                          formikProps={formikProps}
+                          formikKey="email"
+                          placeholder="  Email"
+                          // autoFocus
+                          // onChange={this.handlerEmail}
+                          // onChangeText={(email) => this.setState({ email })}
 
+                      />
                     <StyledInput 
                         label="Password"
                         formikProps={formikProps}
                         formikKey="password"
                         placeholder="  Password"
-                        secureTsecureTextEntryextEntry
+                        secureTextEntry
                         // onChangeText={(password) => this.setState({ password })}
                         // value={this.state.password}
 
@@ -323,5 +390,9 @@ const styles = StyleSheet.create ({
     marginBottom: 10,
     width: wp("40%"),
     marginLeft: 20
+  }
+  ,
+  error:{
+    color: "red"
   }
 });
