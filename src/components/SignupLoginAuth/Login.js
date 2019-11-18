@@ -18,7 +18,10 @@ import {Actions} from 'react-native-router-flux';
 import Test from "./Test"
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Button } from 'react-native-paper';
-
+import { connect } from "react-redux";
+import {setUserInfo} from "../../redux/actions/login"
+import { bindActionCreators } from 'redux';
+import {setUser} from "../../redux/actions/userDetail"
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
   <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
     <Text style={{ marginBottom: 3 }}>{label}</Text>
@@ -111,121 +114,72 @@ const validationSchema = yup.object().shape({
 //     ),
 });
 
-export default class Login extends React.Component {
+class Login extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-          email: '',
-        //   email: '',
-          password: '',
-          errorMsg: ''
-        //   confirmPassword: ''
+        email: '',
+        password: '',
+        errorMsg: ""
       }
     }
-
-    // saveData =() => {
-    //   const {name, email, password, confirmPassword} = this.initialValues
-    //   let array = {
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //     confirmPassword: confirmPassword
-    //   }
-    //   AsyncStorage.getItem('array', JSON.stringify(array))
-    //   // Keyboard.dismiss()
-    //   // alert(name + " " + email + " " + password + " " + confirmPassword + " " )
-    // }
-    // onSubmitHandler = () => {
-    //     <Test/>
-    // }
     async loginCall(JsonObj) {
 
-      const url = 'https://space-rental.herokuapp.com/users/sign_in_call';
-  
       
-      try {
-          const response = await fetch(url, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(JsonObj), // data can be `string` or {object}!
-            headers: {
-              'Content-Type': 'application/json'
+        const url = 'https://space-rental.herokuapp.com/users/sign_in_call';     
+        try {
+            const response = await fetch(url, {
+              method: 'POST', 
+              body: JSON.stringify(JsonObj), 
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            const json = await response.json();
+          
+            if(json.success){
+              
+              console.log('Results:', JSON.stringify(json));
+              console.log("json login",json.success)
+              console.log("ID", json.user.first_name)
+              this.props.settingUserData(json.user)
+              this.toHome()
+            }else{
+              
+                // const {e} = this.props.setLoginData.errorMsg
+                // console.log("ERROR: ", errorMsg)
+                this.setState({
+                  errorMsg: json.message
+                })
+
             }
-          });
-          const json = await response.json();
-        
-          if(json.success){
-           
-            console.log('Results:', JSON.stringify(json));
-            console.log("json login",json.success)
-            console.log("ID", json.user.first_name)
-  
-          
-            this.toHome()
-          }else{
-            this.setState({
-              errorMsg: json.message
-            })
             
-          }
-          
-      } 
-      catch (error) {
-          console.error('Error:', error);
-      }
+        } 
+        catch (error) {
+            console.error('Error:', error);
+        }
+      
+    
   }
+    
     async handleSubmit(values) {
-      // console.log("dsdsd",this)
-      // const arr=JSON.stringify(values);
-      // Alert.alert(arr)
-      // console.log("arr",arr)
-      // console.log("Username",values.name)
-              // await AsyncStorage.setItem('email',values.email);
-              // await AsyncStorage.setItem('password',values.password);
-
-      // console.log("Get", name)
-      // Alert.alert(store)
-              // this.toHome()
-              // return true;
-      // if(store){
-      // Keyboard.dismiss()
-      // this.simplemapping()
       if (values){
-        //    this.props.onLoginInPress();
-
-        //creating obj with same keys for API call
+        // let {em, p} = this.props.setLoginData
         var obj = {};
+        // em = values.email
+        // p = values.password
+        console.log("EMAIL: ", values.email)
+        console.log("PASSWORD: ", values.password)
         obj["email"] = values.email;
         obj["password"] = values.password; 
         this.loginCall(obj);
-        console.log(obj)
-        // if(success){
-          
-        // }
-        // this.toHome()
+        // console.log(obj.email)
+        
     }
 
-      //   this.test()
-      // }
-      // const c = await AsyncStorage.getItem('array')
-      // console.log("get item", c)
+    
     }
-    // onLogin() {
-    //   const { name, password } = this.state;
-    //   if (name === this.gettingLoginInformation.name && password ===this.gettingLoginInformation.password){
-    //       // Alert.alert('Credentials', `name = ${name} and password = ${password}`);
-    //       // Keyboard.dismiss()
-    //       // this.simplemapping()
-    //       // this.test()
-    //       this.toHome()
-    //       // <Test/>
-    //   }else{
-    //     Alert.alert(
-    //       'Wrong Credential',
-    //       'Please fill in all fields correctly',
-    //     );
-    //   }
-      
-    // }
+   
     toHome(){
       Actions.home()
     }
@@ -341,7 +295,7 @@ export default class Login extends React.Component {
                     )}
                     <Text style={styles.info}>Don't have an account?</Text>
                     <TouchableOpacity style={styles.info} onPress={this.signup}><Text>Click here to Signup</Text></TouchableOpacity>
-
+                    
                     </React.Fragment>
                 )}
                 </Formik>
@@ -350,7 +304,16 @@ export default class Login extends React.Component {
     }
   
 }
+const mapStateToProps = (state) => {
+  return {
+     sU: state.userSet
+  }
+}
+const mapDispatchToProps = dispatch => bindActionCreators({
+  settingUserData: payload => setUser(payload),
+}, dispatch)
 
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
 
 
 const styles = StyleSheet.create ({

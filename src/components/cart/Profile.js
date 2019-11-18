@@ -6,6 +6,10 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import ImagePicker from 'react-native-image-picker';
 import loginApi from "../SignupLoginAuth/Login"
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import {getUser} from "../../redux/actions/userDetail"
+
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
     <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
       <Text style={{ marginBottom: 3 }}>{label}</Text>
@@ -71,7 +75,7 @@ const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
    
   });
 
-export class Profile extends Component {
+class Profile extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -83,8 +87,9 @@ export class Profile extends Component {
             avatarSource: null,
             imageReplaced: false,
             inputFieldHideShow: false,
+            pitcure: ''
         }
-        this.API_CALL()
+        // this.loginAPI()
         this.getUsernameFromLogin()
         this.getUsernameFromEdit()
         this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
@@ -209,41 +214,48 @@ export class Profile extends Component {
         var obj = {};
         
         console.log("In getting method")
-        // this.API_CALL()
       }
-      async API_CALL(){
-        // const {id} = this.props.loginApi().id
-        console.log("Check if there is any id or not? ", id)
-        const url = `https://space-rental.herokuapp.com/users/83/user_details`;
-        //  const url = "https://space-rental.herokuapp.com/users/17/user_details";
-        // console.log("ID", id)
-        try {
-            const response = await fetch(url, {
-              method: 'GET', // or 'PUT'
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-            const json = await response.json();
-            console.log('Results:', JSON.stringify(json));   
-            console.log("USERNAME in Profile", json.user.first_name)
-            this.setState({
-              firstname: json.user.first_name,
-              lastname: json.user.last_name,
-              email: json.user.email
+    // async loginAPI(){
+    //   console.log("Check if there is any id or not? ", id)
+    //   const url = `https://space-rental.herokuapp.com/users/83/user_details`;
+    //   try {
+    //       const response = await fetch(url, {
+    //         method: 'GET', // or 'PUT'
+    //         headers: {
+    //           'Content-Type': 'application/json'
+    //         }
+    //       });
+    //       const json = await response.json();
+    //       getUser
+    //       console.log('Results:', JSON.stringify(json));   
+    //       console.log("USERNAME in Profile", json.user.first_name)
+    //       gettingUserDetail(user)
+    //       this.setState({
+    //         firstname: json.user.first_name,
+    //         lastname: json.user.last_name,
+    //         email: json.user.email,
+    //         pitcure: json.user.image_url
 
-            })              
-        } 
-        catch (error) {
-            console.error('Error:', error);
-        }
-      }
+    //       })              
+    //   } 
+    //   catch (error) {
+    //       console.error('Error:', error);
+    //   }
+    // }
+    componentDidMount(){
+        const {first_name} = this.props.user
+        this.setState({
+          firstname: first_name
+        })
+    }
     render() {
         return (
             <View style={styles.container}>
                   <Text   style={styles.text} onPress={this.gettingInfo}>YOUR INFORMATION</Text>
-                  <Text style={styles.info}> Full name: {this.state.firstname} {this.state.lastname}</Text>
-                  <Text style={styles.info}> Email: {this.state.email}</Text>
+                  <Text style={styles.info}> Full name: {this.state.firstname} </Text>
+                  {/* <Text style={styles.info}> Email: {this.state.email}</Text>
+                  <Text style={styles.info}> image: {this.state.pitcure}</Text> */}
+
 
                  <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
           <View
@@ -314,6 +326,16 @@ export class Profile extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+  return {
+      user: state.userGet
+  }
+}
+const mapDispatchToProps = dispatch => bindActionCreators({
+  gettingUserDetail: payload => getUser(payload),
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
 
 const styles = StyleSheet.create ({
 
@@ -387,4 +409,3 @@ const styles = StyleSheet.create ({
         height: 150,
       },
   });
-export default Profile

@@ -122,7 +122,7 @@ export default class Signup extends React.Component {
           errorMsgSignup: ''
       }
     }
-    async API_CALL(JsonObj) {
+    async signupCall(JsonObj) {
       const url = 'https://space-rental.herokuapp.com/users/create_user';
       try {
           const response = await fetch(url, {
@@ -256,7 +256,7 @@ export default class Signup extends React.Component {
             obj["email"] = values.email;
             obj["password"] = values.password;
             obj["password_confirmation"]= values.confirmPassword
-            this.API_CALL(obj);
+            this.signupCall(obj);
             console.log("obj",obj)
             // this.props.onSignInPress();
       } 
