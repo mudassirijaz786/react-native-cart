@@ -43,10 +43,3 @@ export function reducerTag(state = initialState, action){
             return state;
     }
 }
-
-// //selectors
-// export const getTags = (state)=>{
-//     console.log("state",state)
-//     console.log("state tags", state.tags)
-//     return state.tags
-// }

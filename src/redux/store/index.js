@@ -26,22 +26,20 @@
 
 
 
-import { applyMiddleware, createStore, combineReducers /*heplfull for more reducers*/ } from 'redux';
+import { applyMiddleware, createStore, combineReducers  } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger'
-// importing all reducers as many as we can have , in our case its one
 import {reducerTag} from '../reducers/index';
 import {cartReducer} from "../reducers/cart"
 import { signupReducer } from '../reducers/signup';
-import { setProfile, getProfile } from '../reducers/userDetail';
+import { user, getProfile } from '../reducers/userDetail';
 const rootReducer = combineReducers({
     tags: reducerTag,
     carts: cartReducer,
-    userGet: getProfile,
-    userSet: setProfile
+    user
 });
 
-//const middlewares = [thunk];
+
 const loggerMiddleware = createLogger()
 
 const configureStore = () => {

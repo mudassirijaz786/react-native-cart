@@ -104,73 +104,19 @@ export default class LoginTest extends React.Component {
       super(props);
       this.state = {
           name: '',
-        //   email: '',
           password: '',
-        //   confirmPassword: ''
       }
     }
 
-    // saveData =() => {
-    //   const {name, email, password, confirmPassword} = this.initialValues
-    //   let array = {
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //     confirmPassword: confirmPassword
-    //   }
-    //   AsyncStorage.getItem('array', JSON.stringify(array))
-    //   // Keyboard.dismiss()
-    //   // alert(name + " " + email + " " + password + " " + confirmPassword + " " )
-    // }
-    // onSubmitHandler = () => {
-    //     <Test/>
-    // }
-    // onLogin() {
-    //     const { name, password } = this.state;
-    //     if (name === "mudassir" && password ==="mudassir"){
-    //         Alert.alert('Credentials', `${name} + ${password}`);
-    //         Keyboard.dismiss()
-    //         this.simplemapping()
-    //         // this.test()
-    //         // <Test/>
-    //     }else{
-    //         Alert.alert('Credentials are wrong');
-    //     }
-        
-    //   }
-    // test() {
-	//   	Actions.test()
-    // }
-    // simplemapping(){
-    //   Actions.simpleMap()
-    // }
-    // maps(){
-    //   Actions.maps()
-    // }
-    // maptest(){
-    //   Actions.maptest()
-    // }
-    // map(){
-    //   Actions.map()
-    // }
-    // signup(){
-    //   Actions.signup()
-    // }
     render(){
-      // const {name} = this.state
-      // console.log(name)
+      
         return(
             <SafeAreaView style={{ marginTop: 90 }}>
                 <Text style={{fontSize: 30, textAlign: "center"}}>Login</Text>
                 <Text style={{ textAlign: "center"}}>Enter mudassir in both fields</Text>
                 <Formik
                 initialValues={this.state}
-                // initialValues={{
-                //   name: '',
-                //   email: '',
-                //   password: '',
-                //   confirmPassword: ''
-                // }}
+              
                 onSubmit={(values, actions) => {
                     alert(JSON.stringify(values));
                     console.log(values)
@@ -187,19 +133,10 @@ export default class LoginTest extends React.Component {
                         formikProps={formikProps}
                         formikKey="name"
                         placeholder="Username"
-                        // autoFocus
                         onChangeText={(name) => this.setState({ name })}
-                        // value={this.state.name}
 
                     />
-                    {/* <StyledInput
-                        label="Email"
-                        formikProps={formikProps}
-                        formikKey="email"
-                        placeholder="Email"
-                        autoFocus
-                    /> */}
-
+                
                     <StyledInput
                         label="Password"
                         formikProps={formikProps}
@@ -207,30 +144,15 @@ export default class LoginTest extends React.Component {
                         placeholder="password"
                         secureTsecureTextEntryextEntry
                         onChangeText={(password) => this.setState({ password })}
-                        // value={this.state.password}
 
                     />
 
-                    {/* <StyledInput
-                        label="Confirm Password"
-                        formikProps={formikProps}
-                        formikKey="confirmPassword"
-                        placeholder="confirm password"
-                        secureTextEntry
-                    /> */}
-
-                    {/* <StyledSwitch
-                        label="Agree to Terms"
-                        formikKey="agreeToTerms"
-                        formikProps={formikProps}
-                    /> */}
+                  
 
                     {formikProps.isSubmitting ? (
                         <ActivityIndicator />
                     ) : (
-                        // <Button title="Submit" onPress={formikProps.handleSubmit} />
-                        // <Button title="Submit" onPress={this.showData()} />
-                        // <Button title="Submit" onPress={this.onSubmitHandler()} />
+                       
                         
                          <Button title="Submit" onPress={this.onLogin.bind(this)} />
 

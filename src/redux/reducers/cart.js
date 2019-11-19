@@ -5,7 +5,6 @@
             return [...state, action.payload]
         case REMOVE_FROM_CART:
             return state.filter(cartItem=>cartItem.id !== action.payload.id)
-            // return state.filter(cartItem=>cartItem !== action.payload)
 
     }
     return state

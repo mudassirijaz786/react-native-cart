@@ -39,7 +39,6 @@ import BasicMenu from "./src/components/cart/BasicMenu"
 const store = configureStore()
 export default class App extends React.Component  {
   render(){
-    // const menu = <Menu navigator={navigator}/>;
  
     return (
       <View >

@@ -36,10 +36,9 @@ const StyledInput = ({ label, formikProps, formikKey, ...rest }) => {
   const inputStyles = {
     borderWidth: 2,
     borderColor: 'indigo',
-    // padding: 10,
     marginBottom: -3,
     marginTop: 1,
-    height: hp('8%'), // 70% of height device screen
+    height: hp('8%'), 
     width: wp('84%'),
     
   };
@@ -73,17 +72,7 @@ const StyledSwitch = ({ formikKey, formikProps, label, ...rest }) => (
 );
 
 const validationSchema = yup.object().shape({
-    // name: yup
-    //     .string()
-    //     .label('Username')
-    //     .required(),
-    // .min(5, 'username cannnot be <= 2')
-    // .max(15, 'please enter a username =< 15'),
-    // email: yup
-    //     .string()
-    //     .label('Email')
-    //     .email()
-    //     .required(),
+   
     email: yup
     .string()
     .label('Email')
@@ -94,24 +83,6 @@ const validationSchema = yup.object().shape({
         .label('Password')
         .required()
         .min(5, 'password should be greater than 5'),
-        // .max(15, 'password cannot be >= 15'),
-    // confirmPassword: yup
-    //     .string()
-    //     .required()
-    //     // .oneOf([Yup.ref('password')], 'Confirm Password must matched Password')
-    //     // .required('Confirm Password is required')
-    //     .label('Confirm password')
-    //     .test('passwords-match', 'Passwords must match', function(value) {
-    //     return this.parent.password === value;
-    //     }),
-//   agreeToTerms: yup
-//     .boolean()
-//     .label('Terms')
-//     .test(
-//       'is-true',
-//       'Must agree to terms to continue',
-//       value => value === true
-//     ),
 });
 
 class Login extends React.Component {
@@ -146,8 +117,7 @@ class Login extends React.Component {
               this.toHome()
             }else{
               
-                // const {e} = this.props.setLoginData.errorMsg
-                // console.log("ERROR: ", errorMsg)
+              
                 this.setState({
                   errorMsg: json.message
                 })
@@ -164,16 +134,13 @@ class Login extends React.Component {
     
     async handleSubmit(values) {
       if (values){
-        // let {em, p} = this.props.setLoginData
         var obj = {};
-        // em = values.email
-        // p = values.password
+       
         console.log("EMAIL: ", values.email)
         console.log("PASSWORD: ", values.password)
         obj["email"] = values.email;
         obj["password"] = values.password; 
         this.loginCall(obj);
-        // console.log(obj.email)
         
     }
 
@@ -205,56 +172,27 @@ class Login extends React.Component {
       Actions.profile()
     }
     render(){
-      // const {name} = this.state
-      // console.log(name)
+     
         return(
             <SafeAreaView style={styles.container}>
-                {/* <View style={styles.textWrapper}>
-                <Text style={styles.myText}>Login</Text>
-
-                </View> */}
                 
-                {/* <Text style={{ textAlign: "center"}}>Please enter "testuser" in both fields</Text> */}
                 <Formik
                 initialValues={this.state}
-                // initialValues={{
-                //   name: '',
-                //   email: '',
-                //   password: '',
-                //   confirmPassword: ''
-                // }}
+                
                 onSubmit={this.handleSubmit.bind(this)}
 
                 validationSchema={validationSchema}
                 >
                 {formikProps => (
                     <React.Fragment>
-                    {/* <StyledInput 
-                        label="Username"
-                        formikProps={formikProps}
-                        formikKey="name"
-                        placeholder="  Username"
-                        // autoFocus
-                        // onChangeText={(name) => this.setState({ name })}
-                        // value={this.state.name}
-
-                    /> */}
-                    {/* <StyledInput
-                        label="Email"
-                        formikProps={formikProps}
-                        formikKey="email"
-                        placeholder="Email"
-                        autoFocus
-                    /> */}
+                   
                       <Text style={styles.error}>{this.state.errorMsg}</Text>
                       <StyledInput 
                           label="Email"
                           formikProps={formikProps}
                           formikKey="email"
                           placeholder="  Email"
-                          // autoFocus
-                          // onChange={this.handlerEmail}
-                          // onChangeText={(email) => this.setState({ email })}
+                       
 
                       />
                     <StyledInput 
@@ -263,33 +201,16 @@ class Login extends React.Component {
                         formikKey="password"
                         placeholder="  Password"
                         secureTextEntry
-                        // onChangeText={(password) => this.setState({ password })}
-                        // value={this.state.password}
+                     
 
                     />
 
-                    {/* <StyledInput
-                        label="Confirm Password"
-                        formikProps={formikProps}
-                        formikKey="confirmPassword"
-                        placeholder="confirm password"
-                        secureTextEntry
-                    /> */}
-
-                    {/* <StyledSwitch
-                        label="Agree to Terms"
-                        formikKey="agreeToTerms"
-                        formikProps={formikProps}
-                    /> */}
-
+                 
                     {formikProps.isSubmitting ? (
                         <ActivityIndicator />
                     ) : (
                       <Button  color="white" style={styles.buttonMenu}  onPress={formikProps.handleSubmit} >Login</Button>
-                      // <Button title="Submit" onPress={this.showData()} />
-                        // <Button title="Submit" onPress={this.onSubmitHandler()} />
-                        
-                        //  <Button color="white" style={styles.buttonMenu} onPress={this.onLogin.bind(this)}>Login</Button>
+          
 
 
                     )}
@@ -306,7 +227,7 @@ class Login extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-     sU: state.userSet
+     user: state.user
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -319,10 +240,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login)
 const styles = StyleSheet.create ({
 
   container: {
-  //  width: "100%",
-  //  aspectRatio: 2,
-  //  backgroundColor: "green",
-  //  height: "100%"
+
   flex: 1,
   marginTop: 10
 
@@ -333,21 +251,18 @@ const styles = StyleSheet.create ({
   },
   
   textWrapper: {
-    height: hp('10%'), // 70% of height device screen
-    width: wp('100%'),   // 80% of width device screen
+    height: hp('10%'), 
+    width: wp('100%'),   
     backgroundColor: "blue"
   },
   myText: {
-    fontSize: hp('5%') // End result looks like the provided UI mockup
+    fontSize: hp('5%') 
   },
   info: {
     marginLeft: 20,
     marginTop: 5
   },
-  // button:{
-  //   width: wp("50%"),
-  //   color: "blue"
-  // }
+ 
   buttonMenu:{
     backgroundColor: "indigo",
     marginBottom: 10,
@@ -356,6 +271,7 @@ const styles = StyleSheet.create ({
   }
   ,
   error:{
-    color: "red"
+    color: "red",
+    marginLeft: 20
   }
 });

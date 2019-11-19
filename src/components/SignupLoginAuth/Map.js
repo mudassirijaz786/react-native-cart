@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { AppRegistry, StyleSheet, Dimensions, View } from "react-native";
-// import { TabNavigator } from "react-navigation";
-// import { Container, Text } from "native-base";
+
 import MapView, { PROVIDER_GOOGLE , Polyline} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 

@@ -20,6 +20,5 @@ export const setSearchText = (event) =>{
             })
         return searchArray
 
-        //console.log("filtered", data)   
     } 
 }

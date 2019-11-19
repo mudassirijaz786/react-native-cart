@@ -1,11 +1,6 @@
 
 import {SET_USER_INFO} from "../actions/login"
 
-// const initialState = {
-//     email: '',
-//     password: '',
-//     errorMsg: ''
-// }
 
 const initialState =  {
     userInfo: {

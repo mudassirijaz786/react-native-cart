@@ -15,38 +15,25 @@ class Tags extends Component {
     componentWillMount() {
         const {tagComponentDidMount}=this.props;
         tagComponentDidMount()
-        //console.log("HIIII", this.props.tagComponentDidMount())
     }
     deleteTagEvent(index){
-        //e.preventDefault();
         this.props.deleteTag(index);
     }
     search(event){
-        // console.log("event",event)
-        // const text = event.nativeEvent.event
-        // console.log("text hhh",text)
+     
         console.log(event)
         this.props.searchResultsDispatch(event)
     }
-    // searchingTagEvent(event){
-    //     console.log("START" , event)
-    //     this.props.searching(event)
-    //     console.log("END")
-    // }
+  
     render() {
         const tags = this.props.gettingTags || this.props.searchedArray;
-        // console.log("SEARCHED ARRAY", this.props.searchedArray)
         const searched = this.props.searchedArray
-        //console.log(tags)
-        //const {actionTagDelete, value} = this.props;
-        // const query = this.props.arr
-        //console.log("Getting Tags", tags)
+      
         return (
             <View style={styles.container}>
                 <TextInput
                     placeholder = "search"
-                    //onChange={(e) => actionTagDelete(e.target.value)}
-                    //value={value} 
+                 
                     onChangeText={ (e)=>this.search(e)}
                 ></TextInput>
                 <FlatList
@@ -81,17 +68,9 @@ const styles = StyleSheet.create({
     }
 })
 const mapStateToProps = state => ({
-    // tags: getTags(state)
-    //state.rootReducer.stateInRedux
+   
     gettingTags: state.tags.tags,
     searchedArray: state.tags.searchArray,
-    //arr: state.tags.searchArray,
-    // dataSource: state.tags.tags,
-    // searchedData: state.tags.searchArray
-    // key: state.tags.payload
-    //data : state.tags
-
-
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

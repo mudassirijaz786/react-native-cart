@@ -17,20 +17,12 @@ export default class Form extends Component {
     this.state = {
       email: '',
       password: '',
-    //   confirmPassword: ''
     };
   }
 
   saveData = async () => {
-    // const { email, password, confirmPassword } = this.state;
     const { email, password } = this.state;
 
-    //save data with asyncstorage
-    // let loginDetails = {
-    //   email: email,
-    //   password: password,
-    //   confirmPassword: confirmPassword
-    // };
     let loginDetails = {
       email: email,
       password: password
@@ -50,7 +42,6 @@ export default class Form extends Component {
         if (ld.email != null && ld.password != null ) {
           if (ld.email == email && ld.password == password) {
             alert('Go in!');
-            //screen we want to pop up on login success
           } else {
             alert('Email and Password does not exist!');
           }

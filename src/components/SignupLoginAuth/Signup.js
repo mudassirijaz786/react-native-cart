@@ -10,13 +10,16 @@ import {
   Alert,
   AsyncStorage,
   Keyboard,
-  StyleSheet
+  StyleSheet,
+  Image,
 } from 'react-native';
 import {Button} from "react-native-paper"
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import {Actions} from 'react-native-router-flux';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import ImagePicker from 'react-native-image-picker';
+
 
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
   <View style={{ marginHorizontal: 20, marginVertical: 3 }}>
@@ -32,10 +35,9 @@ const StyledInput = ({ label, formikProps, formikKey, ...rest }) => {
   const inputStyles = {
     borderWidth: 2,
     borderColor: 'indigo',
-    // padding: 10,
     marginBottom: -5,
     marginTop: -1,
-    height: hp('7%'), // 70% of height device screen
+    height: hp('7%'),
     width: wp('84%'),
   };
 
@@ -72,14 +74,10 @@ const validationSchema = yup.object().shape({
   .string()
   .label('firstname')
   .required(),
-  // .min(5, 'username cannnot be <= 2')
-  // .max(15, 'please enter a username =< 15'),
   lastname: yup
   .string()
   .label('lastname')
   .required(),
-  // .min(5, 'username cannnot be <= 2')
-  // .max(15, 'please enter a username =< 15'),
   email: yup
     .string()
     .label('Email')
@@ -90,114 +88,32 @@ const validationSchema = yup.object().shape({
     .label('Password')
     .required()
     .min(6, 'password should be greater than 6'),
-    // .max(15, 'password cannot be >= 15'),
   confirmPassword: yup
     .string()
     .required()
-    // .oneOf([Yup.ref('password')], 'Confirm Password must matched Password')
-    // .required('Confirm Password is required')
     .label('Confirm password')
     .test('passwords-match', 'Passwords must match', function(value) {
       return this.parent.password === value;
-    }),
-//   agreeToTerms: yup
-//     .boolean()
-//     .label('Terms')
-//     .test(
-//       'is-true',
-//       'Must agree to terms to continue',
-//       value => value === true
-//     ),
+    })
 });
 
 export default class Signup extends React.Component {
     constructor(props){
       super(props);
+
       this.state = {
           firstname: '',
           lastname: '',
           email: '',
           password: '',
           confirmPassword: '',
-          errorMsgSignup: ''
+          avatarSource: null,
+          photo: null,
+          errorMsg: ''
       }
-    }
-    async signupCall(JsonObj) {
-      const url = 'https://space-rental.herokuapp.com/users/create_user';
-      try {
-          const response = await fetch(url, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(JsonObj), // data can be `string` or {object}!
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          const json = await response.json();
-          console.log('Results:', JSON.stringify(json));
-          if(!json.success){
-            console.log("THERE IS ERROR")
-            this.setState({
-              errorMsgSignup: `email ${json.user.email}`,
-            })
-          }else{
-            this.goLogin()
-          }
-      } 
-      catch (error) {
-          console.error('Error:', error);
-      }
+
     }
 
-
-    // handlerName = (e) =>{
-    //   console.log("Name", e.nativeEvent.text)
-    //   this.setState({
-    //     name: e.nativeEvent.text
-    //   })
-    // }
-    // handlerEmail = (e) =>{
-    //   console.log("Email", e.nativeEvent.text)
-    //   this.setState({
-    //     email: e.nativeEvent.text
-    //   })
-    // }
-    // handlerPassword = (e) =>{
-    //   console.log("Password", e.nativeEvent.text)
-    //   this.setState({
-    //     password: e.nativeEvent.text
-    //   })
-    // }
-    // handlerPasswordConfirm = (e) =>{
-    //   console.log("Password", e.nativeEvent.text)
-    //   this.setState({
-    //     confirmPassword: e.nativeEvent.text
-    //   })
-    // }
-
-    // saveData () {
-    //   const {name, email, password, confirmPassword} = this.state
-    //   let array = {
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //     confirmPassword: confirmPassword
-    //   }
-    //   AsyncStorage.getItem('array', JSON.stringify(array))
-    //   Keyboard.dismiss()
-    //   alert(name + " " + email + " " + password + " " + confirmPassword + " " )
-    // }
-    // onSubmitHandler() {
-    //   const { name, email, password, confirmPassword } = this.state;
-    //       Alert.alert('Credentials', `${name} + ${email} + ${password} + ${confirmPassword}`);
-    //       Keyboard.dismiss()
-    //       // <Test/>
-    //       console.log("Name in state", name)
-    //       console.log("Email in state", email)
-    //       console.log("Password in state", password)
-    //       console.log("Confirm Password in state", confirmPassword)
-
-    //       // AsyncStorage.setItem('array', JSON.stringify(array))
-    // }
     test() {
 	  	Actions.test()
     }
@@ -209,64 +125,7 @@ export default class Signup extends React.Component {
     }
     h1 = async (values, actions) => {
       alert(JSON.stringify(values))
-      // try {
-      //   await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-      // } catch (error) {
-      //   // Error saving data
-      // }
     };
-    // success () {
-    //   if(this.handleSubmit()){
-    //     this.simplemapping()
-    //   }
-    // }
-
-  //   async saveKey(email , password) {
-  //     try {
-  //         await AsyncStorage.setItem("name", email );
-  //         await AsyncStorage.setItem('password', password );
-  //     } 
-  //     catch (error) {
-  //         console.log("Error saving data" + error);
-  //     }
-  // }
-    async handleSubmit(values) {
-      // console.log("dsdsd",this)
-      // const arr=JSON.stringify(values);
-      // Alert.alert(arr)
-      // console.log("arr",arr)
-      // console.log("Username",values.name)
-              //  await AsyncStorage.setItem('name',values.name);
-              // await AsyncStorage.setItem('password',values.password);
-
-      // console.log("Get", name)
-      // Alert.alert(store)
-                  // this.goLogin()
-                    // return true;
-      // if(store){
-      // Keyboard.dismiss()
-      // this.simplemapping()
-      if (values){
-        // this.saveKey(values.email ,  values.password);
-
-            //creating obj with same keys for API call
-            var obj = {};
-            obj["first_name"] = values.firstname;
-            obj["last_name"] = values.lastname;
-            obj["email"] = values.email;
-            obj["password"] = values.password;
-            obj["password_confirmation"]= values.confirmPassword
-            this.signupCall(obj);
-            console.log("obj",obj)
-            // this.props.onSignInPress();
-      } 
-     
-      //   this.test()
-      // }
-      // const c = await AsyncStorage.getItem('array')
-      // console.log("get item", c)
-    }
-
 
     simplemapping(){
       console.log("MAPPING")
@@ -275,46 +134,127 @@ export default class Signup extends React.Component {
     goHome(){
       Actions.home()
     }
+
+    selectPhotoTapped() {
+        const options = {
+          quality: 1.0,
+          maxWidth: 500,
+          maxHeight: 500,
+          storageOptions: {
+            skipBackup: true,
+          },
+        };
+    
+        ImagePicker.showImagePicker(options, response => {
+          console.log('Response after getting picture from Camera = ', response);
+    
+          if (response.didCancel) {
+            console.log('User cancelled photo picker');
+          } 
+          else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } 
+          else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } 
+          else {
+            
+            let source = {uri: response.uri};
+      
+    
+            this.setState({
+              avatarSource: source,
+              photo: response,
+            });
+          }
+        });
+      }
+
+      createFormData(pic, body) {
+        const data = new FormData();
+      
+        data.append("avatar", {
+          name: pic.fileName,
+          type: pic.type,
+          uri:
+            Platform.OS === "android" ? pic.uri : pic.uri.replace("file://", "")
+        });
+  
+  
+        Object.keys(body).forEach(key => {
+          data.append(key, body[key]);
+        });
+        
+        return data;
+      };
+  
+      async SignupApiCall(photo , otherParams) {
+        console.log("responce of picture :" , photo );
+        console.log("object is   " , otherParams);
+        const url = 'https://space-rental.herokuapp.com/users/create_user';
+  
+        try {
+            const response = await fetch(url, {
+              method: 'POST', 
+              body: this.createFormData(photo, otherParams),
+            });
+  
+            const json = await response.json();
+            console.log("Signup responce is: ", JSON.stringify(json));
+            if(!json.success){
+              console.log("THERE IS ERROR")
+              this.setState({
+                errorMsg: `email ${json.user.email}`,
+              })
+            }else{
+              this.goLogin()
+            }
+  
+        } 
+        catch (error) {
+            console.error('Error:', error);
+            alert("Upload failed!");
+        }
+      }
+      
+      handleSubmit(values) {
+        
+        if (values){
+              let obj = {};
+              obj["first_name"] = values.firstname;
+              obj["last_name"] = values.lastname;
+              obj["email"] = values.email;
+              obj["password"] = values.password;
+              obj["password_confirmation"]= values.confirmPassword;
+
+              this.SignupApiCall(this.state.photo , obj);
+        } 
+      }
+      goLogin(){
+        Actions.login()
+      }
+
     render(){
-      // const {name} = this.state
-      // console.log(name)
         return(
             <SafeAreaView style={styles.container}>
               
-                {/* <Text style={{fontSize: 30, textAlign: "center"}}>Signup</Text> */}
                 <Formik 
                   initialValues={this.state}
-                  // initialValues={{
-                  //   name: '',
-                  //   email: '',
-                  //   password: '',
-                  //   confirmPassword: ''
-                  // }}
+    
                   onSubmit={this.handleSubmit.bind(this)}
-                  // onSubmit={(values, actions) => {
-                  //     alert(values);
-                  //     console.log(values)
-                  //     AsyncStorage.setItem('array', values.name)
-                  //     const c = AsyncStorage.getItem('array')
-                  //     console.log("get item", c)
 
-                  //     setTimeout(() => {
-                  //     actions.setSubmitting(false);
-                  //     }, 1000);
-                  // }}
                   validationSchema={validationSchema}
                   >
                   {formikProps => (
                       <React.Fragment>
-                        <Text style={styles.error}>{this.state.errorMsgSignup}</Text>
+                      <Text style={styles.error}>{this.state.errorMsg}</Text>
+
                       <StyledInput 
                           label="firstname"
                           formikProps={formikProps}
                           formikKey="firstname"
                           placeholder="  First name"
-                          // autoFocus
-                          // onChange={this.handlerName}
-                          // onChangeText={(name) => this.setState({ name })}
+                       
 
                       />
                         <StyledInput 
@@ -322,19 +262,13 @@ export default class Signup extends React.Component {
                           formikProps={formikProps}
                           formikKey="lastname"
                           placeholder="  Last name"
-                          // autoFocus
-                          // onChange={this.handlerName}
-                          // onChangeText={(name) => this.setState({ name })}
-
+   
                       />
                       <StyledInput 
                           label="Email"
                           formikProps={formikProps}
                           formikKey="email"
                           placeholder="  Email"
-                          // autoFocus
-                          // onChange={this.handlerEmail}
-                          // onChangeText={(email) => this.setState({ email })}
 
                       />
 
@@ -344,8 +278,6 @@ export default class Signup extends React.Component {
                           formikKey="password"
                           placeholder="  Password"
                           secureTextEntry
-                          // onChange={this.handlerPassword}
-                          // onChangeText={(password) => this.setState({ password })}
 
                       />
 
@@ -355,24 +287,31 @@ export default class Signup extends React.Component {
                           formikKey="confirmPassword"
                           placeholder="  Confirm password"
                           secureTextEntry
-                          // onChange={this.handlerPasswordConfirm}
-                          // onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
-
+           
                       />
 
-                      {/* <StyledSwitch
-                          label="Agree to Terms"
-                          formikKey="agreeToTerms"
-                          formikProps={formikProps}
-                      /> */}
+                      <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+                            <View
+                              style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
+                              {this.state.avatarSource === null ? (
+                                  <View>
+                                  <Text style={{marginLeft: 15}}>Select Photo</Text>
+                                  <Image
+                                      style={{width: 50, height: 50, margin: 30}}
+                                      source={require('../../../assets/menu.png')}
+                                  />
+                                  </View>
+                              ) : (
+                                <Image style={styles.avatar} source={this.state.avatarSource} />
+                              )}
+                            </View>
+                        </TouchableOpacity>
 
                       {formikProps.isSubmitting ? (
                           <ActivityIndicator />
                       ) : (
                           <Button  color="white" style={styles.buttonMenu}  onPress={formikProps.handleSubmit} >Signup</Button>
-                          
-                          // <Button title="Submit" onPress={this.onSubmitHandler.bind(this)} />
-
+             
                       )}
                       <Text style={styles.info}>Have an account?</Text>
                       <TouchableOpacity style={styles.info} onPress={this.goLogin}><Text>Click here to Login</Text></TouchableOpacity>
@@ -397,26 +336,19 @@ const styles = StyleSheet.create ({
      fontSize: 30,
      color: 'red',
   },
-  inputField:{
-    // height: "10%",
-    // // backgroundColor: "blue",
-    // borderWidth: 2,
-    // borderColor: "green",
-    // marginBottom: -5,
-    // marginTop: -8
-  },
+
   boldText: {
     fontSize: 30,
     color: 'red',
  },
  
  textWrapper: {
-   height: hp('10%'), // 70% of height device screen
-   width: wp('100%'),   // 80% of width device screen
+   height: hp('10%'), 
+   width: wp('100%'),   
    backgroundColor: "blue"
  },
  myText: {
-   fontSize: hp('5%') // End result looks like the provided UI mockup
+   fontSize: hp('5%') 
  },
  info: {
   marginLeft: 20,
@@ -430,6 +362,7 @@ buttonMenu:{
   
 },
 error:{
-  color: "red"
+  color: "red",
+  marginLeft: 20
 }
 });

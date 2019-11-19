@@ -99,7 +99,7 @@ class SimpleMaps extends React.Component {
       this.setState({
         editing: {
           ...editing,
-          id: id++, // keep incrementing id to trigger display refresh
+          id: id++, 
           coordinates: [...editing.coordinates],
           holes,
         },

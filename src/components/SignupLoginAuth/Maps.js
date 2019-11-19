@@ -75,7 +75,6 @@ class Maps extends Component {
 
 
     setNewLocation(coordinate){
-      //alert("User location changed MAP SHOULDNT MOVE")
       this.setState({
           latitude: coordinate.latitude,
           longitude: coordinate.longitude,

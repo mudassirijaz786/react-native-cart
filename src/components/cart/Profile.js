@@ -5,10 +5,10 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ImagePicker from 'react-native-image-picker';
-import loginApi from "../SignupLoginAuth/Login"
-import { connect } from "react-redux";
-import { bindActionCreators } from 'redux';
-import {getUser} from "../../redux/actions/userDetail"
+
+
+import { connect } from 'react-redux';
+import {setUser} from "../../redux/actions/userDetail"
 
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
     <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
@@ -64,47 +64,50 @@ const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
       name: yup
           .string()
           .label('Username')
-          .required(),
-      // .min(5, 'username cannnot be <= 2')
-      // .max(15, 'please enter a username =< 15'),
-      // email: yup
-      //     .string()
-      //     .label('Email')
-      //     .email()
-      //     .required(),
-   
+          .required(), 
   });
 
-class Profile extends Component {
+export class Profile extends Component {
     constructor(props){
         super(props);
+
         this.state = {
             name: '',
             firstname: '',
-            lastname: '',
-            email: '',
             newName: '',
             avatarSource: null,
             imageReplaced: false,
             inputFieldHideShow: false,
-            pitcure: ''
+            photo: null
         }
-        // this.loginAPI()
+
         this.getUsernameFromLogin()
         this.getUsernameFromEdit()
-        this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+        this.handleUploadPhoto = this.handleUploadPhoto.bind(this);
+      }
+
+      componentWillMount(){
+        console.log("avatarSource is", this.props.user[0].image_url);
+        let source = {uri: this.props.user[0].image_url}
+        this.setState({
+          avatarSource: source,
+          firstname: this.props.user[0].first_name
+        })
+
+        
+      }
+
+      componentDidMount(){
+        console.log("this.state.avatarSource" , this.state.avatarSource);
       }
   
       async getUsernameFromLogin(){
         try {
             const name = await AsyncStorage.getItem('name');
-            // const newName = await AsyncStorage.getItem('newName')
             console.log("Name in Profile page", name)
-            // console.log("New Name in Profile page", newName)
 
             this.setState({              
-                name: name,   
-                // newName: newName          
+                name: name,           
             });
 
         } 
@@ -120,8 +123,7 @@ class Profile extends Component {
             // console.log("New Name in Profile page", newName)
 
             this.setState({              
-                newName: newName,   
-                // newName: newName          
+                newName: newName,          
             });
 
         } 
@@ -129,153 +131,141 @@ class Profile extends Component {
             console.log("Error retrieving data" + error);
         }
     }
-   
-    selectPhotoTapped() {
-        const options = {
-          quality: 1.0,
-          maxWidth: 500,
-          maxHeight: 500,
-          storageOptions: {
-            skipBackup: true,
-          },
-        };
-    
-        ImagePicker.showImagePicker(options, response => {
-          console.log('Response = ', response);
-    
-          if (response.didCancel) {
-            console.log('User cancelled photo picker');
-          } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-          } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-          } else {
-            let source = {uri: response.uri};
-    
-            // You can also display the image using data:
-            // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-    
-            this.setState({
-              avatarSource: source,
-              // imageReplaced: false
-            });
-          }
-        });
-      }
-    async handleSubmit(values) {
-        // console.log("dsdsd",this)
-        // const arr=JSON.stringify(values);
-        // Alert.alert(arr)
-        // console.log("arr",arr)
-        // console.log("Username",values.name)
-                // const name = await AsyncStorage.getItem('name', values.name);
-                // console.log("mmmmm",name)
-        // this.setState({
-        //     name: name
-        // })
-        const name = values.firstname
-        // Alert.alert(arr)
-      
-        this.setState({
-          firstname: name
-        })
-        console.log("HHH")
 
-        // console.log("Get", name)
-        // Alert.alert(store)
-        // this.toHome()
-        // return true;
-        // if(store){
-        // Keyboard.dismiss()
-        // this.simplemapping()
+    handleUploadPhoto() {
+      const options = {
+        quality: 1.0,
+        maxWidth: 500,
+        maxHeight: 500,
+        storageOptions: {
+          skipBackup: true,
+        },
+      };
   
+      ImagePicker.showImagePicker(options, response => {
+        console.log('Response after getting picture from Camera = ', response);
   
-        //   this.test()
-        // }
-        // const c = await AsyncStorage.getItem('array')
-        // console.log("get item", c)
-      }
-      editUsername(){
-          console.log(".gfgdfgdfgg");
-
-          this.setState({              
-            inputFieldHideShow: true
-          //  name: name,   
-            // newName: newName          
-        });
-
-          console.log("after")
-
-      }
-      saveUsername(){
-          console.log("Saved ")
-      }
-      gettingInfo(){
-        var obj = {};
-        
-        console.log("In getting method")
-      }
-    // async loginAPI(){
-    //   console.log("Check if there is any id or not? ", id)
-    //   const url = `https://space-rental.herokuapp.com/users/83/user_details`;
-    //   try {
-    //       const response = await fetch(url, {
-    //         method: 'GET', // or 'PUT'
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         }
-    //       });
-    //       const json = await response.json();
-    //       getUser
-    //       console.log('Results:', JSON.stringify(json));   
-    //       console.log("USERNAME in Profile", json.user.first_name)
-    //       gettingUserDetail(user)
-    //       this.setState({
-    //         firstname: json.user.first_name,
-    //         lastname: json.user.last_name,
-    //         email: json.user.email,
-    //         pitcure: json.user.image_url
-
-    //       })              
-    //   } 
-    //   catch (error) {
-    //       console.error('Error:', error);
-    //   }
-    // }
-    componentDidMount(){
-        const {first_name} = this.props.user
-        this.setState({
-          firstname: first_name
-        })
+        if (response.didCancel) {
+          console.log('User cancelled photo picker');
+        } 
+        else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } 
+        else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } 
+        else {
+          
+          let source = {uri: response.uri};
+          // You can also display the image using data:
+          // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+  
+          this.setState({
+            avatarSource: source,
+            photo: response,
+          });
+        }
+      });
     }
+
+    createFormData(pic, body) {
+      const data = new FormData();
+      
+      if(pic === null){
+        Object.keys(body).forEach(key => {
+          data.append(key, body[key]);
+        });
+        return data;
+      }
+      else {
+        data.append("avatar", {
+          name: pic.fileName,
+          type: pic.type,
+          uri:
+            Platform.OS === "android" ? pic.uri : pic.uri.replace("file://", "")
+        });
+
+
+        Object.keys(body).forEach(key => {
+          data.append(key, body[key]);
+        });
+        return data;
+      }
+    };
+
+    async EditUserApiCall(photo , otherParams) {
+      console.log("responce of picture :" , photo );
+      console.log("object is   " , otherParams);
+      const url = 'https://space-rental.herokuapp.com/users/edit_user_call';
+
+      try {
+          const response = await fetch(url, {
+            method: 'POST', // or 'PUT'
+            // body: JSON.stringify(JsonObj), // data can be `string` or {object}!
+            body: this.createFormData(photo, otherParams),
+          });
+
+          const json = await response.json();
+          console.log("Edited responce is: ", JSON.stringify(json));
+          // alert("Edited successfully!");
+
+          this.props.onUserAction(json);
+          console.log('state saved is  :', this.props.user[0]);
+
+      } 
+      catch (error) {
+          console.error('Error:', error);
+          alert("Upload failed!");
+      }
+    }
+
+    handleSubmit(values) {
+        
+      if (values){
+        console.log("values are   " , values);
+        //creating obj with same keys for API call
+        const {user} = this.props
+        let obj = {};
+      
+        obj["id"] = user[0].id;
+        obj["first_name"] = values.name;
+        obj["last_name"] = user[0].last_name;
+        
+        this.EditUserApiCall(this.state.photo , obj);
+      } 
+    }
+
+    editUsername(){
+        this.setState({              
+          inputFieldHideShow: true  
+        });
+    }
+
+    saveUsername(){
+        console.log("Saved ")
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                  <Text   style={styles.text} onPress={this.gettingInfo}>YOUR INFORMATION</Text>
-                  <Text style={styles.info}> Full name: {this.state.firstname} </Text>
-                  {/* <Text style={styles.info}> Email: {this.state.email}</Text>
-                  <Text style={styles.info}> image: {this.state.pitcure}</Text> */}
+                <Text style={styles.info}> first name: {this.state.firstname} </Text>
+                 <TouchableOpacity onPress={this.handleUploadPhoto.bind(this)}>
+                      <View
+                        style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
+                        {this.state.avatarSource === null ? (
+                            <View>
+                            <Text style={{marginLeft: 15}}>Select Photo</Text>
+                            <Image
+                                style={{width: 50, height: 50, margin: 30}}
+                                source={require('../../../assets/menu.png')}
+                            />
+                            </View>
+                        ) : (
+                          <Image style={styles.avatar} source={this.state.avatarSource} />
+                        )}
+                      </View>
+                  </TouchableOpacity>
 
-
-                 <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-          <View
-            style={[styles.avatar, styles.avatarContainer, {marginBottom: 30, marginTop: 30}]}>
-            {this.state.avatarSource === null ? (
-                <View>
-                <Text style={{marginLeft: 15, marginBottom: 10}}>Select Photo</Text>
-                <Image
-                    style={{width: 50, height: 50, marginLeft: 26}}
-                    source={require('../../../assets/profile.png')}
-                />
-                </View>
-            ) : (
-              <Image style={styles.avatar} source={this.state.avatarSource} />
-            )}
-          </View>
-        </TouchableOpacity>
-                {/* <Button></Button> */}
-               
-       
         <View
             style={{marginBottom: 20}}>
             {this.state.inputFieldHideShow === true ? (
@@ -291,7 +281,7 @@ class Profile extends Component {
                     <StyledInput style={styles.inputField}
                         label="Your Name"
                         formikProps={formikProps}
-                        formikKey="firstname"
+                        formikKey="name"
                         placeholder="  New Username"
                     
 
@@ -314,7 +304,7 @@ class Profile extends Component {
             ) : (
                 <View>
                   <Text style={styles.usernameText}> Your Name</Text>
-                  <Text style={styles.name}>{this.state.firstname}</Text>
+                  <Text style={styles.name}>{this.state.name}</Text>
 
                 <Button  style={styles.editButton} color="white" style={styles.buttonMenu}  onPress={this.editUsername.bind(this)}>Edit</Button>
                 </View>
@@ -326,16 +316,6 @@ class Profile extends Component {
         )
     }
 }
-const mapStateToProps = (state) => {
-  return {
-      user: state.userGet
-  }
-}
-const mapDispatchToProps = dispatch => bindActionCreators({
-  gettingUserDetail: payload => getUser(payload),
-}, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
 
 const styles = StyleSheet.create ({
 
@@ -343,7 +323,6 @@ const styles = StyleSheet.create ({
 
         flex: 1,
         marginTop: 50,
-        // justifyContent: 'center',
         alignItems: 'center',
 
   
@@ -357,17 +336,10 @@ const styles = StyleSheet.create ({
   },
   usernameText: {
    fontSize: 15,
-  //  textAlign: "center"
-  },
-  info:{
-    fontSize: 15,
-    alignContent: "stretch"
   },
   inputField:{
     borderBottomColor: "indigo",
-    // padding: 10,
     marginBottom: -10,
-    // marginTop: 1,
     height: hp('8%'), // 70% of height device screen
     width: wp('40%'),
   },
@@ -393,10 +365,6 @@ const styles = StyleSheet.create ({
       marginLeft: 20,
 
     },
-    text:{
-      color: "indigo",
-      marginBottom: 10,
-    },
     save:{
         backgroundColor: "indigo",
         width: wp("40%"),
@@ -409,3 +377,19 @@ const styles = StyleSheet.create ({
         height: 150,
       },
   });
+
+
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onUserAction: obj => dispatch(setUser(obj))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

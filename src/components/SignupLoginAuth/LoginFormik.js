@@ -36,7 +36,7 @@ const StyledInput = ({ label, formikProps, formikKey, ...rest }) => {
     // padding: 10,
     marginBottom: -3,
     marginTop: 1,
-    height: hp('8%'), // 70% of height device screen
+    height: hp('8%'), 
     width: wp('84%'),
     
   };
@@ -74,36 +74,13 @@ const validationSchema = yup.object().shape({
         .string()
         .label('Username')
         .required(),
-    // .min(5, 'username cannnot be <= 2')
-    // .max(15, 'please enter a username =< 15'),
-    // email: yup
-    //     .string()
-    //     .label('Email')
-    //     .email()
-    //     .required(),
+   
     password: yup
         .string()
         .label('Password')
         .required()
         .min(5, 'password should be greater than 5'),
-        // .max(15, 'password cannot be >= 15'),
-    // confirmPassword: yup
-    //     .string()
-    //     .required()
-    //     // .oneOf([Yup.ref('password')], 'Confirm Password must matched Password')
-    //     // .required('Confirm Password is required')
-    //     .label('Confirm password')
-    //     .test('passwords-match', 'Passwords must match', function(value) {
-    //     return this.parent.password === value;
-    //     }),
-//   agreeToTerms: yup
-//     .boolean()
-//     .label('Terms')
-//     .test(
-//       'is-true',
-//       'Must agree to terms to continue',
-//       value => value === true
-//     ),
+     
 });
 
 
@@ -112,34 +89,20 @@ export default class Login extends React.Component {
       super(props);
       this.state = {
           name: '',
-        //   email: '',
           password: '',
-        //   confirmPassword: ''
       }
       this.gettingLoginInformation()
     }
     async handleSubmit(values) {
-      // console.log("dsdsd",this)
-      // const arr=JSON.stringify(values);
-      // Alert.alert(arr)
-      // console.log("arr",arr)
+     
       console.log("Username",values.name)
       await AsyncStorage.setItem('name',values.name);
       await AsyncStorage.setItem('password',values.password);
 
-      // console.log("Get", name)
-      // Alert.alert(store)
+    
       this.goLogin()
       return true;
-      // if(store){
-      // Keyboard.dismiss()
-      // this.simplemapping()
-
-
-      //   this.test()
-      // }
-      // const c = await AsyncStorage.getItem('array')
-      // console.log("get item", c)
+    
     }
     async gettingLoginInformation() {
       try {
@@ -159,30 +122,11 @@ export default class Login extends React.Component {
       }
   }
 
-    // saveData =() => {
-    //   const {name, email, password, confirmPassword} = this.initialValues
-    //   let array = {
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //     confirmPassword: confirmPassword
-    //   }
-    //   AsyncStorage.getItem('array', JSON.stringify(array))
-    //   // Keyboard.dismiss()
-    //   // alert(name + " " + email + " " + password + " " + confirmPassword + " " )
-    // }
-    // onSubmitHandler = () => {
-    //     <Test/>
-    // }
     onLogin() {
         const { name, password } = this.state;
         if (name === this.gettingLoginInformation.name && password ===this.gettingLoginInformation.password){
-            // Alert.alert('Credentials', `name = ${name} and password = ${password}`);
-            // Keyboard.dismiss()
-            // this.simplemapping()
-            // this.test()
+         
             this.toHome()
-            // <Test/>
         }else{
           Alert.alert(
             'Wrong Credential',
