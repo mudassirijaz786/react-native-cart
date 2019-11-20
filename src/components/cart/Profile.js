@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 
 
 import { connect } from 'react-redux';
-import {setUser} from "../../redux/actions/userDetail"
+import {userDetail} from "../../redux/actions/userDetail"
 
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
     <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
@@ -48,19 +48,7 @@ const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
       </FieldWrapper>
     );
   };
-  
-  const StyledSwitch = ({ formikKey, formikProps, label, ...rest }) => (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <Switch
-        value={formikProps.values[formikKey]}
-        onValueChange={value => {
-          formikProps.setFieldValue(formikKey, value);
-        }}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-  
+
   const validationSchema = yup.object().shape({
       name: yup
           .string()
@@ -73,66 +61,24 @@ export class Profile extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            firstname: '',
-            newName: '',
             avatarSource: null,
-            imageReplaced: false,
             inputFieldHideShow: false,
             photo: null
         }
 
-        this.getUsernameFromLogin()
-        this.getUsernameFromEdit()
+ 
         this.handleUploadPhoto = this.handleUploadPhoto.bind(this);
       }
 
       componentDidMount(){
-        this.props.settingUserData()
         const {user} = this.props
-        console.log("FN", user[0].first_name)
-        console.log("IU", user[0].image_url)
         const sourceImage = {uri: user[0].image_url}
         this.setState({
-          firstname: user[0].first_name,
           avatarSource: sourceImage,
         })
       }
 
-      // componentDidMount(){
-      //   console.log("this.state.avatarSource" , this.state.avatarSource);
-      // }
-  
-      async getUsernameFromLogin(){
-        try {
-            const name = await AsyncStorage.getItem('name');
-            console.log("Name in Profile page", name)
-
-            this.setState({              
-                name: name,           
-            });
-
-        } 
-        catch (error) {
-            console.log("Error retrieving data" + error);
-        }
-    }
-    async getUsernameFromEdit() {
-        try {
-            const name = await AsyncStorage.getItem('new');
-            // const newName = await AsyncStorage.getItem('newName')
-            console.log("New in Profile page", name)
-            // console.log("New Name in Profile page", newName)
-
-            this.setState({              
-                newName: newName,          
-            });
-
-        } 
-        catch (error) {
-            console.log("Error retrieving data" + error);
-        }
-    }
+     
 
     handleUploadPhoto() {
       const options = {
@@ -159,8 +105,7 @@ export class Profile extends Component {
         else {
           
           let source = {uri: response.uri};
-          // You can also display the image using data:
-          // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        
   
           this.setState({
             avatarSource: source,
@@ -211,7 +156,7 @@ export class Profile extends Component {
           console.log("Edited responce is: ", JSON.stringify(json));
           // alert("Edited successfully!");
 
-          this.props.settingUserData(json);
+          this.props.userDetail(json);
           console.log('state saved is  :', this.props.user[0]);
 
       } 
@@ -250,7 +195,7 @@ export class Profile extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.info}> first name: {this.state.firstname} </Text>
+                <Text style={styles.info}> first name: {this.props.user[0].first_name} </Text>
                  <TouchableOpacity onPress={this.handleUploadPhoto.bind(this)}>
                       <View
                         style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
@@ -306,7 +251,7 @@ export class Profile extends Component {
             ) : (
                 <View>
                   <Text style={styles.usernameText}> Your First Name</Text>
-                  <Text style={styles.name}>{this.state.firstname}</Text>
+                  <Text style={styles.name}>{this.props.user[0].first_name}</Text>
 
                 <Button  style={styles.editButton} color="white" style={styles.buttonMenu}  onPress={this.editUsername.bind(this)}>Edit</Button>
                 </View>
@@ -389,7 +334,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  settingUserData: payload => setUser(payload)
+  userDetail: payload => userDetail(payload)
 }, dispatch)
 
 

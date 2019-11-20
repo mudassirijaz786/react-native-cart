@@ -21,7 +21,7 @@ import { Button } from 'react-native-paper';
 import { connect } from "react-redux";
 import {setUserInfo} from "../../redux/actions/login"
 import { bindActionCreators } from 'redux';
-import {setUser} from "../../redux/actions/userDetail"
+import {userDetail} from "../../redux/actions/userDetail"
 const FieldWrapper = ({ children, label, formikProps, formikKey }) => (
   <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
     <Text style={{ marginBottom: 3 }}>{label}</Text>
@@ -59,17 +59,7 @@ const StyledInput = ({ label, formikProps, formikKey, ...rest }) => {
   );
 };
 
-const StyledSwitch = ({ formikKey, formikProps, label, ...rest }) => (
-  <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-    <Switch
-      value={formikProps.values[formikKey]}
-      onValueChange={value => {
-        formikProps.setFieldValue(formikKey, value);
-      }}
-      {...rest}
-    />
-  </FieldWrapper>
-);
+
 
 const validationSchema = yup.object().shape({
    
@@ -113,7 +103,7 @@ class Login extends React.Component {
               console.log('Results:', JSON.stringify(json));
               console.log("json login",json.success)
               console.log("ID", json.user.first_name)
-              this.props.settingUserData(json.user)
+              this.props.userDetail(json.user)
               this.toHome()
             }else{
               
@@ -231,7 +221,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  settingUserData: payload => setUser(payload),
+  userDetail: payload => userDetail(payload),
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

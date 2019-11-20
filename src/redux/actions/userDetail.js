@@ -1,16 +1,10 @@
-export  const  SET_USER= "SET_USER"
-export  const  EDIT_USER= "EDIT_USER"
+export  const  USER_DETAIL= "USER_DETAIL"
 
-export const setUser=(payload) =>{
+export const userDetail=(payload) =>{
     return {
-        type: SET_USER,
+        type: USER_DETAIL,
         payload
     }
 }
 
-export const editUser=(payload) =>{
-    return {
-        type: EDIT_USER,
-        payload
-    }
-}
+
