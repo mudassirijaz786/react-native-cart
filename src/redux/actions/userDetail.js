@@ -1,5 +1,5 @@
 export  const  SET_USER= "SET_USER"
-export  const  GET_USER= "GET_USER"
+export  const  EDIT_USER= "EDIT_USER"
 
 export const setUser=(payload) =>{
     return {
@@ -7,9 +7,10 @@ export const setUser=(payload) =>{
         payload
     }
 }
-export const getUser=(payload) =>{
+
+export const editUser=(payload) =>{
     return {
-        type: GET_USER,
+        type: EDIT_USER,
         payload
     }
 }

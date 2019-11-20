@@ -5,6 +5,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ImagePicker from 'react-native-image-picker';
+import { bindActionCreators } from 'redux';
 
 
 import { connect } from 'react-redux';
@@ -87,6 +88,7 @@ export class Profile extends Component {
       }
 
       componentDidMount(){
+        this.props.settingUserData()
         const {user} = this.props
         console.log("FN", user[0].first_name)
         console.log("IU", user[0].image_url)
@@ -209,7 +211,7 @@ export class Profile extends Component {
           console.log("Edited responce is: ", JSON.stringify(json));
           // alert("Edited successfully!");
 
-          this.props.gettingUserData(json);
+          this.props.settingUserData(json);
           console.log('state saved is  :', this.props.user[0]);
 
       } 
@@ -387,7 +389,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  gettingUserData: payload => setUser(payload)
+  settingUserData: payload => setUser(payload)
 }, dispatch)
 
 
