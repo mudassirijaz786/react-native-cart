@@ -296,10 +296,7 @@ export default class Signup extends React.Component {
                               {this.state.avatarSource === null ? (
                                   <View>
                                   <Text style={{marginLeft: 15}}>Select Photo</Text>
-                                  <Image
-                                      style={{width: 50, height: 50, margin: 30}}
-                                      source={require('../../../assets/menu.png')}
-                                  />
+                               
                                   </View>
                               ) : (
                                 <Image style={styles.avatar} source={this.state.avatarSource} />

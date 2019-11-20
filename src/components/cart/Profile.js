@@ -86,20 +86,20 @@ export class Profile extends Component {
         this.handleUploadPhoto = this.handleUploadPhoto.bind(this);
       }
 
-      componentWillMount(){
-        console.log("avatarSource is", this.props.user[0].image_url);
-        let source = {uri: this.props.user[0].image_url}
-        this.setState({
-          avatarSource: source,
-          firstname: this.props.user[0].first_name
-        })
-
-        
-      }
-
       componentDidMount(){
-        console.log("this.state.avatarSource" , this.state.avatarSource);
+        const {user} = this.props
+        console.log("FN", user[0].first_name)
+        console.log("IU", user[0].image_url)
+        const sourceImage = {uri: user[0].image_url}
+        this.setState({
+          firstname: user[0].first_name,
+          avatarSource: sourceImage,
+        })
       }
+
+      // componentDidMount(){
+      //   console.log("this.state.avatarSource" , this.state.avatarSource);
+      // }
   
       async getUsernameFromLogin(){
         try {
@@ -209,7 +209,7 @@ export class Profile extends Component {
           console.log("Edited responce is: ", JSON.stringify(json));
           // alert("Edited successfully!");
 
-          this.props.onUserAction(json);
+          this.props.gettingUserData(json);
           console.log('state saved is  :', this.props.user[0]);
 
       } 
@@ -303,8 +303,8 @@ export class Profile extends Component {
                 </Formik>
             ) : (
                 <View>
-                  <Text style={styles.usernameText}> Your Name</Text>
-                  <Text style={styles.name}>{this.state.name}</Text>
+                  <Text style={styles.usernameText}> Your First Name</Text>
+                  <Text style={styles.name}>{this.state.firstname}</Text>
 
                 <Button  style={styles.editButton} color="white" style={styles.buttonMenu}  onPress={this.editUsername.bind(this)}>Edit</Button>
                 </View>
@@ -386,10 +386,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onUserAction: obj => dispatch(setUser(obj))
-  };
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  gettingUserData: payload => setUser(payload)
+}, dispatch)
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
